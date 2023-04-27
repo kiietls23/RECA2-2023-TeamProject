@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="kr">
+  <body>
+    <div class="container mt-4 mb-5">
+      <ul class="list-group mb-2">
+         
+        {% for result in results %}
+        <div> 
+          <h3>{{ result.name }}</h3>
+          <p>user_id: {{ result.user_id }}<p>
+          <p>email: {{ result.email }}<p>
+          <p>address: {{ result.address }}<p>
+          <p>phone: {{ result.phone }}<p>
+        </div>
+        {% endfor %}
+
+      </ul>        
+    </div>
+  </body>
+</html>
