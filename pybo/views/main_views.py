@@ -27,7 +27,8 @@ def index():
             'phone' : user[5],
         } for user in users
     ]
-    return render_template('user.html', results=results)
+    return render_template('user.html', results=results), 200
+    # return(results)
     
 
 
