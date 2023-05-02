@@ -4,13 +4,20 @@
   
   <title>Sign Up</title>
   <style>
+    .tm-video-wrapper{
+      z-index: -1000;
+      position: fixed;
+      top: -100px;
+      width:100%;
+      height:100%;
+    }
     body {
         position: relative;
         width: 100%;
         height: 100vh;
         min-height: 850px;
         color: #ffffff;
-        background-color: #000000;
+        
         font-size: 15px;
         font-weight: 400;
         line-height: 1.4;
@@ -25,7 +32,8 @@
         font-size: 60px;
         text-decoration: none;
         color: rgb(23, 102, 240);
-        text-shadow: 1px 1px 1px white; 
+        text-shadow: 1px 1px 1px white;
+         
     }
       
       button {
@@ -111,6 +119,7 @@
         align-items: center;
         border: 1px solid #f8f8f8;
         border-radius: 40px;
+        backdrop-filter: blur(10px);
         box-shadow: 1px 1px 12px rgb(255, 255, 255);
         box-sizing: border-box;
       }
@@ -235,7 +244,7 @@
         margin-left: 3px;
         text-decoration: none;
         font-weight: 700;
-        color:#585858;
+        color:#000000;
         transition: .1s;
       }
       
@@ -281,6 +290,7 @@
           box-shadow: none;
         }
       
+       
         .content {
           width: 85vw;
           min-width: 380px;
@@ -296,6 +306,12 @@
         </span>
     </a>
 </div>
+  <div class="tm-video-wrapper">
+    <i id="tm-video-control-button" class="fas fa-pause"></i>
+    <video autoplay muted loop id="tm-video">
+        <source src="C:\Users\Modestday\Desktop\class\study web/wave-cafe-video-bg.mp4" type="video/mp4">
+    </video>
+  </div>
   <div class="container">
     <div class="content">
       <!-- HEADER -->
@@ -308,7 +324,7 @@
       <section>
         <div class="info" id="info__id">
           <div id="id-input">
-            <input class="box" type="text" placeholder="아이디 입력(6~20자)"/>
+            <input class="box" type="text" placeholder="아이디 입력"/>
             <button id="id-check">중복 확인</button>
           </div>
           <div class="error-msg"></div>
@@ -329,8 +345,8 @@
         <div class="info" id="info__email">
           <input class="box" id="email-txt" type="text" placeholder="이메일 입력"/>
           <span>@</span>
-          <input class="box" id="domain-txt" type="text"/>
-          <select class="box" id="domain-list">
+          <input class="box" id="domain-txt" type="text" value="" placeholder=""/>
+          <select class="box" id="domain-list" onchange="realchange()">
             <option value="type">직접 입력</option>
             <option value="naver.com">naver.com</option>
             <option value="google.com">google.com</option>
@@ -339,21 +355,7 @@
             <option value="kakao.com">kakao.com</option>
           </select>
         </div>
-        <!-- <div class="info" id="info__birth">
-          <div id="birth-flex">
-            <select class="box" id="birth-year">
-              <option disabled selected>출생 연도</option>
-            </select>
-            <select class="box" id="birth-month">
-              <option disabled selected>월</option>
-            </select>
-            <select class="box" id="birth-day">
-              <option disabled selected>일</option>
-            </select>
-          </div>
-          <div class="error-msg"></div>
-        </div> -->
-        <!-- <div id="print-date"></div> -->
+       
         <div class="info" id="info__mobile">
           <input class="box" type="text" placeholder="휴대폰 번호 입력 (‘-’ 제외 11자리 입력)"/>
           <div class="error-msg"></div>
@@ -363,51 +365,27 @@
       <button id="submit">가입하기</button>
       <div class="exist">
         <span>이미 회원이신가요?</span>
-        <a href="file:///C:/Users/Modestday/Desktop/class/study%20web/Sign%20in.html">로그인 하러가기</a>
+        <a href="file:///C:/myproject/RECA2-2023-TeamProject/pybo/templates/signin.html">로그인 하러가기</a>
       </div>
     </div>
   </div>
 </body>
 <script>
-  function makenogada(){
-    let Ekd = document.getElementById('birth-day');
+  
+  function realchange(){
+    var mail_select = document.getElementById("domain-list");
+    var selectValue = mail_select.options[mail_select.selectedIndex].value;
+    var selectText = mail_select.options[mail_select.selectedIndex].text;
+    document.getElementById('domain-txt').value=''
+    if( selectText != "직접 입력"){
+    document.querySelector('#domain-txt').readOnly = true;
+    document.querySelector('#domain-txt').setAttribute('placeholder',selectText);
 
-
-    for (i = 1; i < 32; i++){
-        let nogada = document.createElement('option');
-        nogada.innerHTML= i+"일";
-        console.log(i);
-        Ekd.appendChild(nogada);
-    };
-}
-makenogada();
+    }else{
+      document.querySelector('#domain-txt').readOnly = false;
+      document.querySelector('#domain-txt').setAttribute('placeholder',"")
+    }
+  }    
 </script>
-<script>
-  function makenogada(){
-    let Ekd = document.getElementById('birth-month');
 
-
-    for (i = 1; i < 13; i++){
-        let nogada = document.createElement('option');
-        nogada.innerHTML= i+"월";
-        console.log(i);
-        Ekd.appendChild(nogada);
-    };
-}
-makenogada();
-</script>
-<script>
-  function makenogada(){
-    let Ekd = document.getElementById('birth-year');
-
-
-    for (i = 1900; i < 2024; i++){
-        let nogada = document.createElement('option');
-        nogada.innerHTML= i+"년";
-        console.log(i);
-        Ekd.appendChild(nogada);
-    };
-}
-makenogada();
-</script>
 </html>
