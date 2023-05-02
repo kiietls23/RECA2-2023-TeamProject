@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign in</title>
+    
+    <style >
+      *,
+*:before,
+*:after{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: beige;
+}
+#logo_box{
+    display: flex;
+    justify-content: center;
+}
+#logo_box a {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 60px;
+    text-decoration: none;
+    color: rgb(23, 102, 240);
+    text-shadow: 1px 1px 1px white; 
+}
+.background{
+    width: 430px;
+    height: 520px;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    left: 50%;
+    top: 50%;
+}
+
+form{
+    height: 520px;
+    width: 400px;
+    background-color: rgba(255,255,255,0.13);
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgba(100, 100, 100, 0.95);
+    padding: 50px 35px;
+}
+form *{
+    font-family: 'Poppins',sans-serif;
+    color: #3274f8d2;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+}
+form h3{
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 42px;
+    text-align: center;
+}
+
+label{
+    display: block;
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 500;
+}
+input{
+    display: block;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(6, 6, 6, 0.838);
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+}
+::placeholder{
+    color: #e5e5e5;
+}
+button{
+    margin-top: 50px;
+    width: 100%;
+    background-color: #000000cf;
+    color: #ffffff;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover,
+button:focus {
+    box-shadow: inset 6.5em 0 0 0 var(--hover);
+    background-color: rgba(132, 132, 136, 0.911);
+    
+}
+
+.social{
+  margin-top: 30px;
+  display: flex;
+}
+.social div{
+  background: red;
+  width: 150px;
+  border-radius: 3px;
+  padding: 5px 10px 10px 5px;
+  background-color: rgba(0, 0, 0, 0.808);
+  color: #eaf0fb;
+  text-align: center;
+}
+.social div:hover{
+  background-color: rgba(97, 97, 98, 0.911);
+}
+.social .fb{
+  margin-left: 25px;
+}
+.social i{
+  margin-right: 4px;
+}
+#pond{
+    display: flex;
+    justify-content: space-between;
+}
+.go {
+    width: 300px;
+}
+.tm-video-wrapper{
+      z-index: -1000;
+      position: absolute;
+      top:0;
+      width:100%;
+      height:100%;
+    }
+    </style>
+</head>
+<body>
+    <div class="tm-video-wrapper">
+        <i id="tm-video-control-button" class="fas fa-pause"></i>
+        <video autoplay muted loop id="tm-video">
+            <source src="{{url_for('static',filename='video/wave-cafe-video-bg.mp4')}}" type="video/mp4">
+        </video>
+    </div>
+    <div id="logo_box">
+        <a href="{{url_for('main.main_logoff')}}">
+            <span id="logo">
+                    ETEVERSss
+            </span>
+        </a>
+    </div>
+    
+    
+    <h3>Login Here</h3>
+    <form method="post" action="login.login">
+        <label for="email">email:</label>
+        <input type="email" placeholder="Email or ID" id="email" name="email" required>
+        <br>
+        <label for="password">password:</label>
+        <input type="password" placeholder="Password" id="password" name="password" required>
+        <br>
+        <input type="submit" value="Login">
+        <div class="social" id="pond">
+        <div class="go"><a href="#">Find ID</a></div>
+        <div class="go"><a href="{{url_for('login.sign_up_page')}}">Sign UP</a></div> 
+        <div class="go"><a href="#">Find PW</a></div>
+    </div>
+    </form>
+</body>
+</html>
+
+
+
