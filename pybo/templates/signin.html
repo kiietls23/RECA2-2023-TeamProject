@@ -1,14 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Design by foolishdeveloper.com -->
-    <title>Glassmorphism login Form Tutorial in html css</title>
-    <!-- <link rel="stylesheet" href="./logstyle.css" /> -->
- 
-    <!-- <link rel="preconnect" href="https://fonts.gstatic.com"> -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> -->
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet"> -->
-    <!--Stylesheet-->
+    <meta charset="UTF-8">
+    <title>Sign in</title>
+    
     <style media="screen">
       *,
 *:before,
@@ -39,24 +34,7 @@ body{
     left: 50%;
     top: 50%;
 }
-.background .shape{
-    height: 200px;
-    width: 200px;
-    position: absolute;
-    border-radius: 50%;
-}
-.shape:first-child{
-    
-    left: -80px;
-    top: -80px;
-    opacity: 35%;
-}
-.shape:last-child{
-    
-    opacity: 35%;
-    right: -30px;
-    bottom: -80px;
-}
+
 form{
     height: 520px;
     width: 400px;
@@ -175,25 +153,25 @@ button:focus {
             </span>
         </a>
     </div>
-    <div class="background">
-        <div class="shape"></div>
-        <div class="shape"></div>
-    </div>
-    <form>
-        <h3>Login Here</h3>
-
-        <label for="username">Username</label>
-        <input type="text" placeholder="Email or ID" id="username">
-
-        <label for="password">Password</label>
-        <input type="password" placeholder="Password" id="password">
-
-        <button>Log In</button>
+    
+    
+    <h3>Login Here</h3>
+    <form method="post" action='login_process'>
+        <label for="email">email:</label>
+        <input type="email" placeholder="Email or ID" id="email" name="email" required>
+        <br>
+        <label for="password">password:</label>
+        <input type="password" placeholder="Password" id="password" name="password" required>
+        <br>
+        <input type="submit" value="Login">
         <div class="social" id="pond">
-          <div class="go"><a href="#">  Find ID</div> </a>
-          <div class="go"><a href="file:///C:/Users/Modestday/Desktop/class/study%20web/sign%20up.html">Sign UP </a> </div> 
-          <div class="go"><a href="#">  Find PW</div> </a>
-        </div>
+        <div class="go"><a href="#">Find ID</a></div>
+        <div class="go"><a href="#">Sign UP</a></div> 
+        <div class="go"><a href="#">Find PW</a></div>
+    </div>
     </form>
 </body>
 </html>
+
+
+    
