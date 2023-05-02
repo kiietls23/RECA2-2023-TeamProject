@@ -2,12 +2,13 @@
 from flask import Blueprint, render_template, Flask, url_for, redirect, request, g
 
 import pymysql
+from my_settings import PW
 
 bp = Blueprint('mypage',__name__,url_prefix='/mypage')
 
 db = pymysql.connect(host='127.0.0.1',            # database 접근
                     user='root',
-                    password='',
+                    password=PW,
                     db='shop',
                     charset='utf8mb4')
 

@@ -1,10 +1,11 @@
 from flask import Blueprint, render_template, Flask, url_for, redirect,request
 import pymysql
 import pandas as pd
-bp = Blueprint('catalog',__name__,url_prefix='')
+from my_settings import PW
+bp = Blueprint('catalog',__name__,url_prefix='/')
 db = pymysql.connect(host='localhost',            # database 접근
                     user='root',
-                    password='',
+                    password=PW,
                     db='shop',
                     charset='utf8mb4')
 cursor = db.cursor() 
