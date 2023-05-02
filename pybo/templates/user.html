@@ -7,8 +7,8 @@
         {% for result in results %}
         <div> 
           <h3>{{ result.name }}</h3>
-          <p>user_id: {{ result.user_id }}<p>
-          <p>email: {{ result.email }}<p>
+          <p>{{ result.user_id }}<p>
+          <p><img src="{{ result.mokoko }}"><p>
           <p>address: {{ result.address }}<p>
           <p>phone: {{ result.phone }}<p>
         </div>
