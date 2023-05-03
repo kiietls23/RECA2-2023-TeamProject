@@ -2,9 +2,9 @@ from flask import Flask
 
 def create_app():
     app = Flask(__name__)
-
+    app.secret_key = 'your_secret_key_here'
     # 블루프린트
-    from .views import catalog, for_link, login, mypage, cart, product
+    from .views import catalog, for_link, login, mypage, cart, product, orders
 
     app.register_blueprint(for_link.bp)
     app.register_blueprint(catalog.bp)
@@ -12,5 +12,6 @@ def create_app():
     app.register_blueprint(mypage.bp)
     app.register_blueprint(cart.bp)
     app.register_blueprint(product.bp)
+    app.register_blueprint(orders.bp)
 
     return app
