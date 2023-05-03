@@ -17,6 +17,7 @@ cursor = db.cursor()
 def get(user_id):
     #장바구니 조회
     try:
+        db.commit()
         cursor.execute("""select c.cart_id, p.name, p.price, p.delivery_charge, c.count 
                     from cart as c join products as p
                     on c.product_id = p.product_id 
