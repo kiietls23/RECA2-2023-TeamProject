@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="kr">
+  <body>
+    <div class="container mt-4 mb-5">
+      <ul class="list-group mb-2">
+         
+        {% for result in results %}
+        <div> 
+          <h3>{{ result.name }}</h3>
+          <p>product_id: {{ result.product_id }}<p>
+          <p>description: {{ result.description }}<p>
+          <p>price: {{ result.price }}원<p>
+          <p>delivery_charge: {{ result.delivery_charge }}원<p>
+          <p>count: {{ result.count }}<p>
+          <p>tag: {{ result.tag }}<p>
+
+
+          <form action="http://127.0.0.1:5000/product/{{ result.product_id }}" method="POST">
+            <input value="{{ result.product_id }}" type="text" name="product_id" style="display: none;">
+            <label class="count">개수</label>
+            <input type="text" name="count">
+            <input type="submit" value="장바구니">
+          </form>
+        </div>
+        {% endfor %}
+      </ul>        
+    </div>
+  </body>
+</html>
