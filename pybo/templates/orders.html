@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="kr">
+  <body>
+    <div class="container mt-4 mb-5">
+      <ul class="list-group mb-2">
+         
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+          <script>
+          alert("{{messages[-1]}}")
+          </script>
+          {% endif %}
+        {% endwith %}
+
+        {% for p in payments %}
+        <div> 
+          <!-- loop.index로 반복문의 횟수를 count하며 결제테이블에 담은 상품 번호(1번,2번 ..) 출력 -->
+          <h3>{{ loop.index }}</h3> 
+          <p>상품 이름: {{ p.name }}<p>
+          <p>가격: {{ p.price }}<p>
+          <p>수량: {{p.count}}<p>
+          <p>배송비: {{ p.delivery_charge }}<p>
+          <p>결제 금액: {{ p.total_price }}<p>
+        </div>
+        {% endfor %}
+
+        <br>
+
+        {% for u in user_info %}
+        <div> 
+          <h3>주문자 정보</h3>
+          <p>이름: {{ u.name }}<p>
+          <p>email: {{ u.email }}<p>
+          <p>배송 주소지: {{ u.address }}<p>
+          <p>연락처: {{ u.phone }}<p>
+        </div>
+        {% endfor %}
+
+        <br>
+        <h3>결제 상품 수량: {{item_count}}</h3>
+        <h3>총 결제 금액: {{sum_total}}</h3>
+
+        <!-- 결제 정보 확인 체크박스 동의 필수 -> 결제 버튼 활성화 -->
+        <form action="http://127.0.0.1:5000/orders/{{user_id}}/payment" method="POST">
+          <input value="{{sum_total}}" type="text" name="sum_total" style="display: none;">
+          <input type="checkbox" name="agreements" onClick="agreeCheck(this.form)"> 결제 정보를 확인했습니다.
+          <br><br>
+          <input type="submit" name="checkButton" value="결제하기" disabled>
+        </form>
+        
+        <script>
+          function agreeCheck(frm) {
+            if (frm.checkButton.disabled) {
+              frm.checkButton.disabled = false;
+            } else {
+              frm.checkButton.disabled = true;
+            }
+          }
+        </script>
+      
+      </ul>        
+    </div>
+  </body>
+</html>
