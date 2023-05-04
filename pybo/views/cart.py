@@ -16,29 +16,6 @@ cursor = db.cursor()
 @bp.route('/<int:user_id>')
 #장바구니 조회
 def get(user_id):
-<<<<<<< HEAD
-    try:
-        cursor.execute("""select p.name, p.price, p.delivery_charge, c.count 
-                       from cart as c join products as p
-                       on c.product_id = p.product_id 
-                       where c.user_id={}
-                       """.format(user_id))
-        carts = cursor.fetchall()
-        if len(carts) == 0:
-            return("장바구니가 비어있음"), 200
-        results = [
-            {
-                'name': cart[0],
-                'price': int(cart[1]),
-                'delivery_charge': int(cart[2]),
-                'count' : int(cart[3]),
-                'total_price' : int((cart[1]*cart[3])+cart[2])
-            } for cart in carts
-        ]
-        return(results), 200
-    except:
-        return("오류"), 401
-=======
     #장바구니 조회
     if request.method == 'GET':
         try:
@@ -138,4 +115,3 @@ def edit():
             return redirect(url_for('cart.get', user_id=user_id))
         except:
             return("오류"), 401
->>>>>>> ab345c090a80370325e07608551de3670d6d5143

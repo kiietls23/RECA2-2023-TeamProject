@@ -5,14 +5,18 @@ from flask import Blueprint, render_template, request
 from my_settings import PW
 
 
-bp = Blueprint('main', __name__, url_prefix='/koko')
+bp = Blueprint('signin', __name__, url_prefix='/signup')
 
 # database 접근
 db = pymysql.connect(host='127.0.0.1', user='root', password=PW, db='shop', charset='utf8')
 # database 테이블에 접근
 cursor = db.cursor()
 
-@bp.route('/signup', methods=['GET', 'POST'])
+@bp.route('/', methods=['GET', 'POST'])
+
+def home():
+    return render_template("signup.html")
+
 def signup():
 	if request.method == 'POST' \
 	and 'name' in request.form \
