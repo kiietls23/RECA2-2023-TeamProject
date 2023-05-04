@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Sign in</title>
     
-    <style >
+    <style media="screen">
       *,
 *:before,
 *:after{
@@ -143,20 +143,20 @@ button:focus {
     <div class="tm-video-wrapper">
         <i id="tm-video-control-button" class="fas fa-pause"></i>
         <video autoplay muted loop id="tm-video">
-            <source src="{{url_for('static',filename='video/wave-cafe-video-bg.mp4')}}" type="video/mp4">
+            <source src="C:\Users\Modestday\Desktop\class\study web/wave-cafe-video-bg.mp4" type="video/mp4">
         </video>
     </div>
     <div id="logo_box">
-        <a href="{{url_for('main.main_logoff')}}">
+        <a href="#">
             <span id="logo">
-                    ETEVERSss
+                    ETEVERS
             </span>
         </a>
     </div>
     
     
     <h3>Login Here</h3>
-    <form method="post" action="login.login">
+    <form method="post" action='signin'>
         <label for="email">email:</label>
         <input type="email" placeholder="Email or ID" id="email" name="email" required>
         <br>
@@ -166,7 +166,7 @@ button:focus {
         <input type="submit" value="Login">
         <div class="social" id="pond">
         <div class="go"><a href="#">Find ID</a></div>
-        <div class="go"><a href="{{url_for('login.sign_up_page')}}">Sign UP</a></div> 
+        <div class="go"><a href="#">Sign UP</a></div> 
         <div class="go"><a href="#">Find PW</a></div>
     </div>
     </form>
@@ -174,4 +174,4 @@ button:focus {
 </html>
 
 
-
+    
