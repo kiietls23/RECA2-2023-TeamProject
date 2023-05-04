@@ -1,6 +1,6 @@
 import pymysql
 
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request
 
 from my_settings import PW
 
@@ -13,7 +13,8 @@ cursor = db.cursor()
 
 
     
-@bp.route('/<int:user_id>', methods=['GET', 'POST'])
+@bp.route('/<int:user_id>')
+#장바구니 조회
 def get(user_id):
     #장바구니 조회
     if request.method == 'GET':

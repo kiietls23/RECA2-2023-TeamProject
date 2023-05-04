@@ -3,16 +3,15 @@
   <body>
     <div class="container mt-4 mb-5">
       <ul class="list-group mb-2">
-         
-        {% for result in results %}
+      
+     
         <div> 
-          <h3>{{ result.name }}</h3>
-          <p>{{ result.user_id }}<p>
-          <p><img src="{{ result.mokoko }}"><p>
-          <p>address: {{ result.address }}<p>
-          <p>phone: {{ result.phone }}<p>
+          <h3>성공이다</h3>
+          <a href="{{url_for('login.subpage3')}}">버튼</a>
+          <p>{{session['email']}}</p>
+          <p>{{session['password']}}</p>
         </div>
-        {% endfor %}
+       
 
       </ul>        
     </div>

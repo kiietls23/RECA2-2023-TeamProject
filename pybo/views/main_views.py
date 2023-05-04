@@ -5,7 +5,7 @@ from flask import Blueprint, render_template
 from my_settings import PW
 
 
-bp = Blueprint('vvs', __name__, url_prefix='/vvs')
+bp = Blueprint('main', __name__, url_prefix='/koko')
 
 # database 접근
 db = pymysql.connect(host='127.0.0.1', user='root', password=PW, db='shop', charset='utf8')
@@ -14,20 +14,21 @@ cursor = db.cursor()
 
 
 
-@bp.route('/owdoakfok')
+@bp.route('/')
 def index():
-    cursor.execute("select * from products")
+    cursor.execute("select * from users")
     users = cursor.fetchall()
     results = [
         {
             'user_id' : user[0],
             'name' : user[1],
-            'mokoko' : user[2],
+            'email' : user[2],
             'address' : user[4],
             'phone' : user[5],
         } for user in users
     ]
-    return render_template('user.html', results=results)
+    return render_template('user.html', results=results), 200
+    # return(results)
     
 
 
