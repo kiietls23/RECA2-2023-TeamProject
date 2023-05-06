@@ -147,7 +147,7 @@ button:focus {
         </video>
     </div>
     <div id="logo_box">
-        <a href="#">
+        <a href="{{url_for('main.main')}}">
             <span id="logo">
                     ETEVERS
             </span>
@@ -156,7 +156,7 @@ button:focus {
     
     
     <h3>Login Here</h3>
-    <form method="post" action='signin'>
+    <form method="post" action="/user/sign_in">
         <label for="email">email:</label>
         <input type="email" placeholder="Email or ID" id="email" name="email" required>
         <br>
