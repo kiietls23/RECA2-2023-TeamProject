@@ -69,7 +69,8 @@ def payment(user_id):
         
     elif request.method == 'POST':
 
-        cursor.execute("SELECT user_id, u.wallet_id, w.rest from wallet as w join users as u where user_id='{}';".format(user_id))
+        cursor.execute('''SELECT user_id, u.wallet_id, w.rest from wallet as w 
+                            join users as u where user_id='{}';'''.format(user_id))
         wallet = cursor.fetchone()
 
         user_id = wallet[0]
@@ -78,19 +79,14 @@ def payment(user_id):
 
         sum_total = int(float(request.form['sum_total']))
 
-        print(rest)
-        print(sum_total)
-
             # 총 금액과 지갑 비교
         if sum_total <= rest:
             afterest = rest - sum_total
             cursor.execute("update wallet set rest='{}' where wallet_id = {};".format(afterest, wallet_id))
             db.commit()
-            flash('결제가 완료되었습니다!')
-            return render_template('orders.html', user_id=user_id), 200
+            # 주문 내역 페이지로 이동 (현재는 우선 mypage로 이동)
+            return '''<script>alert('결제가 완료되었습니다!');
+                    window.location.href = '{0}';</script>'''.format(url_for('mypage.info_check', user_id=user_id))
         else:
-            flash('잔액이 부족합니다.')
-            return render_template('orders.html', user_id=user_id), 200
-
-        
-
+            return '''<script>alert('잔액이 부족합니다. 지갑을 충전하세요!');
+                    window.location.href = '{0}';</script>'''.format(url_for('mypage.info_check', user_id=user_id))
