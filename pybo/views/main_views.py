@@ -5,7 +5,7 @@ from flask import Blueprint, render_template
 from my_settings import PW
 
 
-bp = Blueprint('main', __name__, url_prefix='/koko')
+bp = Blueprint('vss', __name__, url_prefix='/koko')
 
 # database 접근
 db = pymysql.connect(host='127.0.0.1', user='root', password=PW, db='shop', charset='utf8')

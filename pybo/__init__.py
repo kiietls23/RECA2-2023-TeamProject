@@ -11,7 +11,6 @@ def create_app():
 
     app.register_blueprint(main_views.bp)
     app.register_blueprint(main.bp)
-
     app.register_blueprint(login.bp)
     app.register_blueprint(mypage.bp)
     app.register_blueprint(cart.bp)

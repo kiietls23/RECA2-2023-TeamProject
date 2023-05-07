@@ -1,5 +1,4 @@
-from flask import Blueprint, render_template, Flask, url_for,redirect
-from flask import Blueprint, render_template, Flask, url_for, redirect,request
+from flask import Blueprint, render_template, Flask, url_for, redirect,request, session
 import pymysql
 import pandas as pd
 from my_settings import PW
@@ -10,9 +9,7 @@ db = pymysql.connect(host='localhost',
                     password=PW,
                     db='shop',
                     charset='utf8mb4')
-
 cursor = db.cursor() 
-
 @bp.route('/')
 def main():
     cursor.execute("select * from products order by rand() limit 6")
