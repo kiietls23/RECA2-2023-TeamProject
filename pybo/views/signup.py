@@ -17,7 +17,7 @@ def check_email():
     cursor.execute('SELECT * FROM users WHERE email = %s', (email,))
     user = cursor.fetchone()
     if user:
-        result = {'result': 'fail'} # 중복인 경우 None을 반환
+        result = {'result': 'fail'} 
     else:
         result = {'result': 'success'}
     return result
