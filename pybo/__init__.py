@@ -16,6 +16,7 @@ def create_app():
     app.register_blueprint(cart.bp)
     app.register_blueprint(product.bp)
     app.register_blueprint(orders.bp)
+    app.register_blueprint(mypage.bp)
 
     app.add_url_rule('/login', view_func=login, methods=['GET', 'POST'])
     
