@@ -4,26 +4,6 @@ from flask import Blueprint, render_template, request, session, Flask, url_for, 
 
 from my_settings import PW
 
-<<<<<<< HEAD
-bp = Blueprint('login', __name__, url_prefix='/users' )
-
-db = pymysql.connect(host='127.0.0.1', user='root', password=PW, db='shop', charset='utf8')
-
-cursor = db.cursor()
-
-@bp.route('/2')
-def subpage3():
-    return render_template('text.html')
-
-        
-@bp.route('/signin')
-def home():
-    return render_template('signin.html')
-
-@bp.route('/signin', methods=['GET', 'POST'])
-def login():
-
-=======
 
 
 bp = Blueprint('login', __name__, url_prefix='/user' )
@@ -45,7 +25,6 @@ def login_page():
 
 @bp.route('/sign_in', methods=['GET', 'POST'])
 def login():
->>>>>>> 88058fefc1f5c08134a65761086b5c3d15c43a53
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
