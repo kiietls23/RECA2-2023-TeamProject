@@ -1,20 +1,32 @@
 <!doctype html>
 <html lang="kr">
   <body>
-    <div class="container mt-4 mb-5">
-      <ul class="list-group mb-2">
-        {% for result in results %}
-        <div> 
-          <h3>{{ result.name }}</h3>
-          <p>price: {{ result.price }}<p>
-          <p>delivery_charge: {{ result.delivery_charge }}<p>
-          <p>count: {{ result.count }}<p>
-          <p>total_price: {{ result.total_price }}<p>
-        </div>
+    <head>
+      <style>
+          .container {
+              width: 10%;
+              height: 15%;
+              background-color: lightgray;
+          }
+      </style>
+    </head>
 
+    <div>
+      <ul>
         <form action="http://127.0.0.1:5000/cart/edit" method="POST">
+          {% for result in results %}
           <input value="{{ result.cart_id }}" type="text" name="cart_id" style="display: none;">
           <input value="{{ user_id }}" type="text" name="user_id" style="display: none;">
+          <input type="checkbox" name="products" value="{{ result.product_id }}">
+          <div> 
+            <h3>{{ result.name }}</h3>
+            <p><img src="{{ result.description }}" class="container" alt="..."></p>
+            <p>price: {{ result.price }}<p>
+            <p>delivery_charge: {{ result.delivery_charge }}<p>
+            <p>count: {{ result.count }}<p>
+            <p>total_price: {{ result.total_price }}<p>
+          </div>
+
           <div>
               <div>
                   <label class="count">개수</label>
@@ -24,11 +36,10 @@
               <button type="submit" name="action" value="수정">수정</button>
               <button type="submit" name="action" value="삭제">삭제</button>
           </div>
+          {% endfor %}
+          <button type="submit" name="action" value="결제">결제</button>  
         </form>
-
-        {% endfor %}
-
-      </ul>        
+      </ul>
     </div>
   </body>
 </html>
