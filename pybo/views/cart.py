@@ -19,22 +19,25 @@ def cart_check():
     else:
         return redirect(url_for('cart.get',user_id=session['user_id']))
 
-@bp.route('/<int:user_id>', methods=['GET', 'POST'])
+@bp.route('/<int:user_id>', methods=['GET'])
 def get(user_id):
     #장바구니 조회
-
     try:
         db.commit()
-        cursor.execute("""select c.cart_id, p.name, p.price, p.delivery_charge, c.count 
+        cursor.execute("""select c.cart_id, p.name, p.price, p.delivery_charge, c.count, p.description, p.product_id
                     from cart as c join products as p
                     on c.product_id = p.product_id 
                     where c.user_id={}
                     """.format(user_id))
         carts = cursor.fetchall()
         if len(carts) == 0:
-            return("장바구니가 비어있음"), 200
+            return """<script>alert('장바구니가 비어있습니다. 메인 페이지로 돌아갑니다.');
+        window.location.replace('http://127.0.0.1:5000/');</script>"""
+
         results = [
-            {
+            {   
+                'product_id' : cart[6],
+                'description' : cart[5],
                 'cart_id': cart[0],
                 'name': cart[1],
                 'price': int(cart[2]),
@@ -43,7 +46,6 @@ def get(user_id):
                 'total_price' : int((cart[2]*cart[4])+cart[3])
             } for cart in carts
         ]
-        # return(results), 200
         return render_template('cart.html', results=results, user_id=user_id), 200
     except:
         return("장바구니 조회 오류"), 401
@@ -57,13 +59,13 @@ def edit():
             cart_id = request.form["cart_id"]
             user_id = request.form["user_id"]
             count = request.form["count"]
-
             sql = "update shop.cart set count={} where cart_id={}".format(count, cart_id)
 
             cursor.execute(sql)
             db.commit()
             return redirect(url_for('cart.get', user_id=user_id))
         except:
+            
             return("오류"), 401
     elif request.form['action'] == '삭제':
         try:
@@ -75,5 +77,14 @@ def edit():
             cursor.execute(sql)
             db.commit()
             return redirect(url_for('cart.get', user_id=user_id))
+        except:
+            return("오류"), 401
+    elif request.form['action'] == '결제':
+        user_id = request.form["user_id"]
+        try:
+            products = request.form.getlist('products')    
+            products = ','.join(products)        
+
+            return redirect(url_for('orders.get', user_id=user_id, products=products, code=301))
         except:
             return("오류"), 401
