@@ -1,6 +1,6 @@
 import pymysql
 
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for, session
 
 from my_settings import PW
 
@@ -11,80 +11,44 @@ bp = Blueprint('cart', __name__, url_prefix='/cart')
 db = pymysql.connect(host='127.0.0.1', user='root', password=PW, db='shop', charset='utf8')
 cursor = db.cursor()
 
+@bp.route('/')
+def cart_check():
+    user_id = session.get('user_id')
+    if not user_id:
+        return redirect(url_for('login.login'))
+    else:
+        return redirect(url_for('cart.get',user_id=session['user_id']))
 
-    
-@bp.route('/<int:user_id>')
-#장바구니 조회
+@bp.route('/<int:user_id>', methods=['GET'])
 def get(user_id):
     #장바구니 조회
-    if request.method == 'GET':
-        try:
-            db.commit()
-            cursor.execute("""select c.cart_id, p.name, p.price, p.delivery_charge, c.count 
-                        from cart as c join products as p
-                        on c.product_id = p.product_id 
-                        where c.user_id={}
-                        """.format(user_id))
-            carts = cursor.fetchall()
-            if len(carts) == 0:
-                return("장바구니가 비어있음"), 200
-            results = [
-                {
-                    'cart_id': cart[0],
-                    'name': cart[1],
-                    'price': int(cart[2]),
-                    'delivery_charge': int(cart[3]),
-                    'count' : int(cart[4]),
-                    'total_price' : int((cart[2]*cart[4])+cart[3])
-                } for cart in carts
-            ]
-            # return(results), 200
-            return render_template('cart.html', results=results, user_id=user_id), 200
-        except:
-            return("장바구니 조회 오류"), 401
-        
-    # 장바구니 테이블 -> 결제 테이블
-    elif request.method == 'POST':
-        try:
-                       
-            cursor.execute("select c.user_id, p.product_id, p.name, p.price, c.count from cart as c join products as p on c.product_id = p.product_id where user_id = '{}';".format(user_id))
-            payments = cursor.fetchall()
+    try:
+        db.commit()
+        cursor.execute("""select c.cart_id, p.name, p.price, p.delivery_charge, c.count, p.description, p.product_id
+                    from cart as c join products as p
+                    on c.product_id = p.product_id 
+                    where c.user_id={}
+                    """.format(user_id))
+        carts = cursor.fetchall()
+        if len(carts) == 0:
+            return """<script>alert('장바구니가 비어있습니다. 메인 페이지로 돌아갑니다.');
+        window.location.replace('http://127.0.0.1:5000/');</script>"""
 
-            results = [
-                {
-                    'user_id' : payment[0],
-                    'product_id' : payment[1],
-                    'name' : payment[2],
-                    'price' : payment[3],
-                    'count' : payment[4],
-                    'sum' : int(payment[3]) * int(payment[4]),
-                } for payment in payments
-            ]
-               
-            for payment in payments:
-                user_id = payment[0]
-                product_id = payment[1]
-                count = payment[4]
-
-                data = {
-                    'user_id' : user_id,
-                    'product_id' : product_id,
-                    'count' : count
-                }
-                columns = ', '.join(data.keys())
-                values = ', '.join(['%s']*len(data))
-
-
-                query = 'insert into payments (%s) values (%s);' % (columns, values)
-                cursor.execute(query, tuple(data.values()))
-
-            db.commit()
-
-            return(results), 200
-            
-        except:
-            None
-            # return({'message':'실패'})
+        results = [
+            {   
+                'product_id' : cart[6],
+                'description' : cart[5],
+                'cart_id': cart[0],
+                'name': cart[1],
+                'price': int(cart[2]),
+                'delivery_charge': int(cart[3]),
+                'count' : int(cart[4]),
+                'total_price' : int((cart[2]*cart[4])+cart[3])
+            } for cart in carts
+        ]
+        return render_template('cart.html', results=results, user_id=user_id), 200
+    except:
+        return("장바구니 조회 오류"), 401
 
         
 @bp.route('/edit', methods=['POST'])
@@ -95,13 +59,13 @@ def edit():
             cart_id = request.form["cart_id"]
             user_id = request.form["user_id"]
             count = request.form["count"]
-
             sql = "update shop.cart set count={} where cart_id={}".format(count, cart_id)
 
             cursor.execute(sql)
             db.commit()
             return redirect(url_for('cart.get', user_id=user_id))
         except:
+            
             return("오류"), 401
     elif request.form['action'] == '삭제':
         try:
@@ -113,5 +77,14 @@ def edit():
             cursor.execute(sql)
             db.commit()
             return redirect(url_for('cart.get', user_id=user_id))
+        except:
+            return("오류"), 401
+    elif request.form['action'] == '결제':
+        user_id = request.form["user_id"]
+        try:
+            products = request.form.getlist('products')    
+            products = ','.join(products)        
+
+            return redirect(url_for('orders.get', user_id=user_id, products=products, code=301))
         except:
             return("오류"), 401

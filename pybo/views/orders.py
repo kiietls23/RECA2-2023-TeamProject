@@ -9,25 +9,37 @@ bp = Blueprint('orders', __name__, url_prefix='/orders')
 db = pymysql.connect(host='127.0.0.1', user='root', password=PW, db='shop', charset='utf8')
 cursor = db.cursor()
 
-@bp.route('/<int:user_id>', methods=('GET', 'POST'))
+@bp.route('/<int:user_id>/<products>', methods=('GET', 'POST'))
 # 장바구니에서 가져온 결제 정보 조회(payments, products 테이블)
-def get(user_id):
+def get(user_id, products):
     if request.method == 'GET':
         try:
-            cursor.execute('''select pa.product_id, pa.count, pr.name, pr.price, pr.delivery_charge
-                                from payments as pa join products as pr on pa.product_id = pr.product_id 
-                                where user_id={};'''.format(user_id))
-
-            payments = cursor.fetchall()
+            products = products.split(',') 
+            if len(products) == 1:
+                product = int(products[0])
+                cursor.execute("""select c.cart_id, p.name, p.price, p.delivery_charge, c.count, p.description
+                            from cart as c join products as p
+                            on c.product_id = p.product_id 
+                            where c.product_id={} and c.user_id={}
+                            """.format(product, user_id))
+            else:
+                product =  [int(i) for i in products]
+                product = tuple(product)
+                cursor.execute("""select p.product_id, p.name, p.price, p.delivery_charge, c.count
+                            from cart as c join products as p
+                            on c.product_id = p.product_id 
+                            where c.product_id in {} and c.user_id={}
+                            """.format(product, user_id))
+            carts = cursor.fetchall()
             payments = [
                 {
-                    'product_id' : p[0],
-                    'count': int(p[1]),
-                    'name' : p[2],
-                    'price': p[3],
-                    'delivery_charge' : p[4],
-                    'total_price': p[1]*p[3]+p[4],
-                } for p in payments
+                    'product_id': cart[0],
+                    'count' : int(cart[4]),
+                    'name': cart[1],
+                    'price': int(cart[2]),
+                    'delivery_charge': int(cart[3]),
+                    'total_price' : int((cart[2]*cart[4])+cart[3])
+                } for cart in carts
             ]
 
             if len(payments) == 0:
@@ -57,8 +69,8 @@ def get(user_id):
             return render_template('orders.html', payments=payments, sum_total=sum_total, item_count=item_count, user_info=user_info, user_id=user_id)
 
         except:
-            # None
-            return("오류"), 401
+            None
+            # return("오류"), 401
           
         
 @bp.route('/<int:user_id>/payment', methods=('GET', 'POST'))
@@ -78,8 +90,6 @@ def payment(user_id):
 
         sum_total = int(float(request.form['sum_total']))
 
-        print(rest)
-        print(sum_total)
 
             # 총 금액과 지갑 비교
         if sum_total <= rest:

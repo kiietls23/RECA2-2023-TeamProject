@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>Ninom</title>
+
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/bootstrap.css') }}"/>
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan|Dosis:400,600,700|Poppins:400,600,700&display=swap" rel="stylesheet" />
+  <!-- Custom styles for this template -->
+  <link href="{{ url_for('static',filename='css/style.css') }}" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="{{ url_for('static',filename='css/resposive.css') }}"rel="stylesheet" />
+  <style>
+    
+    .logout_btn:hover{
+      background-color: red;
+    }
+
+    
+    .logout_btn{
+      position: absolute;
+      top:2%;
+      left:11.5%;;
+      z-index: 990;
+      color:white;
+      padding:0 10px;
+      border: 1px solid white;
+      border-radius: 10px;
+    }
+
+    .logout_btn *{
+      color:white;
+    }
+
+
+
+
+
+
+
+
+    
+
+
+    #wrap{
+      width:100%;
+      height:500px;
+      display: flex;
+      padding:0px 100px 0px 100px;
+  
+    
+    }
+   #wrap aside{
+    
+    box-shadow: 0 4px 15px 0 rgba(45, 54, 65, 0.75);
+    width:200px;
+  
+   }
+
+   aside li{
+    list-style: none;
+    padding:10px 0px;
+    margin:10px 0px;
+    left:-20px;
+    position: relative;
+    text-align: center;
+    right: auto;
+    border-radius: 10px;
+   }
+   aside li:nth-child(4){
+    list-style: none;
+    padding:10px 0px;
+    margin:10px 0px;
+    left:-20px;
+    position: relative;
+    text-align: center;
+    right: auto;
+    border-radius: 10px;
+    border: 3px solid red;
+    font-weight:bold;
+   }
+   aside li:not(:nth-child(1)):hover{
+    border: 3px solid red;
+    font-weight:bold;
+   }
+
+   aside li a{
+    color:black;
+   }
+   
+   #clock{
+      position: absolute;
+      top:2%;
+      left:19%;;
+      z-index: 990;
+      color:white;
+      padding:0 10px;
+    }
+   
+   #wrap main{
+    width:100%;
+    display: flex;
+    justify-content: stretch;
+   }
+   #wrap article:nth-child(1){
+    width:100%;
+   }
+  
+  #mypage_contents{
+    border:1px solid black;
+  }
+
+
+
+  #wallet{
+    width:300px;
+    height:400px;
+    background-image: linear-gradient(to top, #25aae1, #3f86ed, #4481eb, #04befe );
+    box-shadow: 0 4px 15px 0 rgba(65, 132, 234, 0.75);
+    border-radius: 10px;
+    border:3px solid black;
+    
+    text-align: center;
+  }
+  #wallet_rest{
+    position: relative;
+    top:25%;
+    color: white;
+  }
+  #wallet h4{
+    position: relative;
+    top: 10%;
+    color: white;
+  }
+  #wallet_btn{
+    display: flex;
+    justify-content: space-evenly;
+    position: relative;
+    top: 55%;
+  }
+  #wallet_charge{
+    background-image: linear-gradient(to right, #25aae1, #40e495, #30dd8a, #2bb673);
+    width:80px;
+    border-radius: 20px;
+    color: black;
+    border:1px solid black;
+  }
+  #wallet a{
+    color: black;
+  }
+  #wallet_history{
+    background-image: linear-gradient(to right, #25aae1, #40e495, #30dd8a, #2bb673);
+    width:80px;
+    border-radius: 20px;
+    border:1px solid black;
+  }
+
+
+  .personal_info{
+  margin-top:10px;
+  display: block;
+  width:200px;
+  height: 20px;
+  background-color: white;
+  margin-left:5px;
+}
+
+
+form>ul {
+display: none;
+
+}
+
+
+#mypage_contents>ul li span:nth-child(1){
+  width:70px;
+  margin-top:10px;
+  padding-left:3px;
+}
+
+button:hover{
+  background-color: red;
+  color:white;
+  font-weight: bold;
+}
+
+
+
+
+  </style>
+  <script>
+    function confirm_delete_info(){
+        var delete_info_result = confirm("탈퇴 하시겠습니까?")
+
+        if(delete_info_result == true){
+          alert("변경되었습니다.")
+          window.location.reload() 
+        }else{
+          window.location.reload()
+        }
+      }
+  </script>
+</head>
+<header id="header">
+  
+  <div class="logout_btn">
+    <span><a href="{{url_for('login.logout')}}" >Logout</a></span>
+  </div>
+  <h6 id="clock" ><small>{{session['name']}}님<br>안녕하세요</small></h6>
+
+</header>
+<body class="sub_page">
+  <div class="hero_area">
+    <!-- header section strats -->
+    <div class="brand_box">
+      <a class="navbar-brand" href="{{url_for('main.main') }}">
+        <span>
+          ETEVERSE
+        </span>
+      </a>
+    </div>
+    <!-- end header section -->
+  </div>
+
+  <!-- nav section -->
+
+  <section class="nav_section">
+    <div class="container">
+      <div class="custom_nav2">
+        <nav class="navbar navbar-expand custom_nav-container ">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex  flex-column flex-lg-row align-items-center">
+              <ul class="navbar-nav  ">
+                
+                <li class="nav-item">
+                  <a class="nav-link" href="#">TOPS</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">BOTTOMS</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">SHOES</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Cart</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{url_for('mypage.info_page')}}">My Page</a>
+                </li>
+              </ul>
+              
+            </div>
+          </div>
+          <div id="search_container">
+            <input class="learn-more">
+          </div>
+          <form id="search_btn" class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0">
+            <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit"></button>
+          </form>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <!-- end nav section -->
+
+  <!-- fruit section -->
+
+  <section class="fruit_section layout_padding">
+    <div class="container">
+      <div class="heading_container">
+        <hr>
+        <h2>
+          My Page
+        </h2>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div id="wrap">
+        <aside>
+          <ul>
+            <li style="margin-top:30px; margin-bottom: 30px;"><span>-My Page-</span></li>
+            <li><a href="{{url_for('mypage.info_page')}}">회원정보조회/수정</a></li>
+            <li><a href="{{url_for('mypage.pw_page')}}">비밀번호변경</a></li>
+            <li><a href="{{url_for('mypage.del_page')}}">회원탈퇴</a></li>
+          </ul>
+        </aside>
+        <main>
+          <article id="mypage_contents" style="margin:30px; padding:30px;">
+            <form action="delete" method="POST">
+              <ul style="list-style: none;">
+                {% for result in results %}
+                <li><span>이름</span><input class="personal_info" value="{{ result.name }}"  readonly></li>
+                <li><span>가입일자</span><input class="personal_info" value="{{ result.created_at }}" readonly></li>
+                <li><span>아이디</span><input class="personal_info" value="{{ result.id }}" name="user_id" readonly> </li>
+                <li><span>전화번호</span><input class="personal_info" placeholder="{{ result.phone }}" value="{{ result.phone }}" name="phone"></li>
+                <li><span>이메일</span><input class="personal_info" placeholde="{{ result.email }}"value="{{ result.email }}" name="email"></li>
+                <li><span style="padding:auto;">주소</span><input class="personal_info"  placeholder="{{ result.address }}" value="{{ result.address }}" name="address"></li>
+              {% endfor %}
+              </ul>
+              <button style="position:relative; top:150px; left:42%; height:50px; width:100px; border-radius:10px;" onclick="confirm_delete_info()">
+                탈퇴
+              </button>
+            </form>
+          </article>
+          <article id="wallet">
+            <h4>Account</h4>
+            <h1 id="wallet_rest">9999999</h1>
+            <div id="wallet_btn">
+              <div id="wallet_charge"><a href="#">charge</a></div>
+              <div id="wallet_history"><a href="#">history</a></div>
+            </div>
+          </article>
+        </main>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- end fruit section -->
+
+
+  <!-- info section -->
+
+  <section class="info_section layout_padding">
+    <div class="container">
+      <div class="info_logo">
+        <h2>
+          NiNom
+        </h2>
+      </div>
+      <div class="info_contact">
+        <div class="row">
+          <div class="col-md-4">
+            <a href="">
+              <img src="{{ url_for ('static',filename='images/location.png') }}" alt="">
+              <span>
+                Passages of Lorem Ipsum available
+              </span>
+            </a>
+          </div>
+          <div class="col-md-4">
+            <a href="">
+              <img src="images/call.png" alt="">
+              <span>
+                Call : +012334567890
+              </span>
+            </a>
+          </div>
+          <div class="col-md-4">
+            <a href="">
+              <img src="images/mail.png" alt="">
+              <span>
+                demo@gmail.com
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8 col-lg-9">
+          <div class="info_form">
+            <form action="">
+              <input type="text" placeholder="Enter your email">
+              <button>
+                subscribe
+              </button>
+            </form>
+          </div>
+        </div>
+        <div class="col-md-4 col-lg-3">
+          <div class="info_social">
+            <div>
+              <a href="">
+                <img src="images/facebook-logo-button.png" alt="">
+              </a>
+            </div>
+            <div>
+              <a href="">
+                <img src="images/twitter-logo-button.png" alt="">
+              </a>
+            </div>
+            <div>
+              <a href="">
+                <img src="images/linkedin.png" alt="">
+              </a>
+            </div>
+            <div>
+              <a href="">
+                <img src="images/instagram.png" alt="">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- end info section -->
+
+
+  <!-- footer section -->
+  <section class="container-fluid footer_section">
+    <p>
+      &copy; <span id="displayYear"></span> All Rights Reserved By
+      <a href="#">>Free Html Templates</a>
+    </p>
+  </section>
+  <!-- footer section -->
+
+
+  <script type="text/javascript" src="{{ url_for ('static',filename='js/jquery-3.4.1.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for ('static',filename='js/bootstrap.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for ('static',filename='js/custom.js') }}"></script>
+  <script>
+    let countBox = document.querySelector('#wallet_rest'),
+        count = 0;
+
+    let counting = setInterval(function () {
+        if (count == 5000) {
+            clearInterval(counting);
+            return false;
+        }
+        count += 100;
+        countBox.innerHTML = new Intl.NumberFormat().format(count)+" $";
+    }, 20);
+  </script>
+</body>
+
+</html>
