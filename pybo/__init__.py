@@ -20,7 +20,7 @@ def create_app():
     app.add_url_rule('/login', view_func=login, methods=['GET', 'POST'])
     
 
-   
+
     app.secret_key = '1234'
 
 

@@ -375,19 +375,21 @@
 <script>
   
   function realchange(){
-    var mail_select = document.getElementById("domain-list");
-    var selectValue = mail_select.options[mail_select.selectedIndex].value;
-    var selectText = mail_select.options[mail_select.selectedIndex].text;
-    document.getElementById('domain-txt').value=''
-    if( selectText != "직접 입력"){
-    document.querySelector('#domain-txt').readOnly = true;
-    document.querySelector('#domain-txt').setAttribute('placeholder',selectText);
+  var mail_select = document.getElementById("domain-list");
+  var selectValue = mail_select.options[mail_select.selectedIndex].value;
+  var selectText = mail_select.options[mail_select.selectedIndex].text;
+  var domainTxt = document.getElementById('domain-txt');
 
-    }else{
-      document.querySelector('#domain-txt').readOnly = false;
-      document.querySelector('#domain-txt').setAttribute('placeholder',"")
-    }
-  }    
+  domainTxt.setAttribute('placeholder', '');
+  if (selectText != "직접 입력") {
+    domainTxt.readOnly = true;
+    domainTxt.value = selectText;
+  } else {
+    domainTxt.readOnly = false;
+    domainTxt.value = '';
+  }
+}
+  
 
 
     function checkEmail() {
