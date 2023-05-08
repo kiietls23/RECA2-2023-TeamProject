@@ -16,7 +16,7 @@
         width: 100%;
         height: 100vh;
         min-height: 850px;
-        color: #ffffff;
+        color: #0b65eb;
         
         font-size: 15px;
         font-weight: 400;
@@ -321,51 +321,53 @@
       </header>
 
       <!-- INPUT -->
-      <section>
-        <div class="info" id="info__id">
-          <div id="id-input">
-            <input class="box" type="text" placeholder="아이디 입력"/>
-            <button id="id-check">중복 확인</button>
+      <form action="signup" method="post" >
+        <section>
+          <div class="info" id="name">
+            <div id="name">
+              <input class="box" type="text" name="name" placeholder="아이디 입력"/>
+            </div>
+            <div class="error-msg"></div>
           </div>
-          <div class="error-msg"></div>
-        </div>
-        <div class="info" id="info__pw">
-          <input class="box" type="password" placeholder="비밀번호 입력 (문자, 숫자, 특수문자 포함 8~20자)"/>
-          <div class="error-msg"></div>
-        </div>
-        <div class="info" id="info__pwRe">
-          <input class="box" type="password" placeholder="비밀번호 재입력"/>
-          <div class="error-msg"></div>
-        </div>
-        <div class="info" id="info__address">
-          <div id="add-input">
-            <input class="box" type="text" placeholder="주소지를 입력해주세요"/>
+          <div class="info" id="password">
+            <input class="box" type="password" name="password" placeholder="비밀번호 입력 (문자, 숫자, 특수문자 포함 8~20자)"/>
+            <div class="error-msg"></div>
           </div>
-        </div>
-        <div class="info" id="info__email">
-          <input class="box" id="email-txt" type="text" placeholder="이메일 입력"/>
-          <span>@</span>
-          <input class="box" id="domain-txt" type="text" value="" placeholder=""/>
-          <select class="box" id="domain-list" onchange="realchange()">
-            <option value="type">직접 입력</option>
-            <option value="naver.com">naver.com</option>
-            <option value="google.com">google.com</option>
-            <option value="hanmail.net">hanmail.net</option>
-            <option value="nate.com">nate.com</option>
-            <option value="kakao.com">kakao.com</option>
-          </select>
-        </div>
-       
-        <div class="info" id="info__mobile">
-          <input class="box" type="text" placeholder="휴대폰 번호 입력 (‘-’ 제외 11자리 입력)"/>
-          <div class="error-msg"></div>
-        </div>
-      </section>
-      <div id="result-fail"></div>
-      <button id="submit">가입하기</button>
+          <div class="info" id="passwordRe">
+            <input class="box" type="password" name="passwordRe" placeholder="비밀번호 재입력"/>
+            <div class="error-msg"></div>
+          </div>
+          <div class="info" id="address">
+            <div id="add-input">
+              <input class="box" type="text" name="address" placeholder="주소지를 입력해주세요"/>
+            </div>
+          </div>
+          <div class="info" id="email">
+            <input class="box" id="email-txt" type="text" name="email" placeholder="이메일 입력"/>
+            <button id="email-check" type="button" onclick="checkEmail()">중복 확인</button>
+            <span>@</span>
+            <input class="box" id="domain-txt" type="text" value="" name="domain" placeholder=""/>
+            <select class="box" id="domain-list" onchange="realchange()">
+              <option value="type">직접 입력</option>
+              <option value="naver.com">naver.com</option>
+              <option value="google.com">google.com</option>
+              <option value="hanmail.net">hanmail.net</option>
+              <option value="nate.com">nate.com</option>
+              <option value="kakao.com">kakao.com</option>
+            </select>
+          </div>
+      
+          <div class="info" id="phone">
+            <input class="box" type="text" name="phone" placeholder="휴대폰 번호 입력 (‘-’ 제외 11자리 입력)"/>
+            <div class="error-msg"></div>
+          </div>
+        </section>
+        <div id="result-fail"></div>
+        <input type="submit" value="signup">
+      </form>      
       <div class="exist">
         <span>이미 회원이신가요?</span>
-        <a href="file:///C:/myproject/RECA2-2023-TeamProject/pybo/templates/signin.html">로그인 하러가기</a>
+        <a href={{ url_for("login.login") }}>로그인 하러가기</a>
       </div>
     </div>
   </div>
@@ -386,6 +388,26 @@
       document.querySelector('#domain-txt').setAttribute('placeholder',"")
     }
   }    
+
+
+    function checkEmail() {
+        const email = document.getElementsByName('email')[0].value;
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/users/check_email');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === xhr.DONE) {
+                const result = JSON.parse(xhr.responseText).result;
+                if (result === 'success') {
+                    alert('사용 가능한 이메일입니다.');
+                } else {
+                    alert('이미 사용중인 이메일입니다.');
+                }
+            }
+        };
+        xhr.send(`email=${email}`);
+    }
+    
 </script>
 
 </html>
