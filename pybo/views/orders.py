@@ -51,7 +51,7 @@ def get(user_id, products):
             # 총 합계 금액 sum_total과 결제할 상품 개수 item_count 계산
             for p in payments:
                 sum_total += p['total_price']
-                item_count += 1
+                item_count += p['count']
 
             # 주문자 정보 조회
             cursor.execute("select name, email, address, phone from users where user_id={};".format(user_id))
@@ -96,11 +96,9 @@ def payment(user_id):
             afterest = rest - sum_total
             cursor.execute("update wallet set rest='{}' where wallet_id = {};".format(afterest, wallet_id))
             db.commit()
-            flash('결제가 완료되었습니다!')
-            return render_template('orders.html', user_id=user_id), 200
+            # 주문 내역 페이지로 이동 (현재는 우선 mypage로 이동)
+            return '''<script>alert('결제가 완료되었습니다!');
+                    window.location.href = '{0}';</script>'''.format(url_for('mypage.info_page', user_id=user_id))
         else:
-            flash('잔액이 부족합니다.')
-            return render_template('orders.html', user_id=user_id), 200
-
-        
-
+            return '''<script>alert('잔액이 부족합니다. 지갑을 충전하세요!');
+                    window.location.href = '{0}';</script>'''.format(url_for('mypage.info_page', user_id=user_id))

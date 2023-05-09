@@ -32,7 +32,7 @@ def get(user_id):
         carts = cursor.fetchall()
         if len(carts) == 0:
             return """<script>alert('장바구니가 비어있습니다. 메인 페이지로 돌아갑니다.');
-        window.location.replace('http://127.0.0.1:5000/');</script>"""
+        window.location.replace('http://127.0.0.1:5000/main');</script>"""
 
         results = [
             {   

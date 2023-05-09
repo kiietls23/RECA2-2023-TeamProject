@@ -28,14 +28,17 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
+        
         cursor = db.cursor()
         cursor.execute('SELECT * FROM users WHERE email = %s AND password = %s', (email, password))
         user = cursor.fetchone()
+
         if user is not None:
             session['email'] = user[2]
             session['password'] = user[3]
             session['name']=user[1]
             session['user_id']=user[0]
+            
             return redirect(url_for('main.main'))
         else:
             return "이메일 또는 비밀번호가 올바르지 않습니다."
