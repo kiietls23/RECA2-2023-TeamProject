@@ -149,12 +149,11 @@
 
     <div>
       <ul>
+        {% for result in results %}
         <form action="http://127.0.0.1:5000/cart/edit" method="POST">
         <div class="orders_section" style="border:1px solid">
-          {% for result in results %}
           <input value="{{ result.cart_id }}" type="text" name="cart_id" style="display: none;">
           <input value="{{ user_id }}" type="text" name="user_id" style="display: none;">
-          <input type="checkbox" name="products" value="{{ result.product_id }}">
           <div> 
             <h3>{{ result.name }}</h3>
             <p><img src="{{ result.description }}" class="productimg" alt="..."></p>
@@ -174,10 +173,15 @@
               <button type="submit" name="action" value="수정">수정</button>
               <button type="submit" name="action" value="삭제">삭제</button>
           </div><br><br>
-          {% endfor %}
-          <button type="submit" name="action" value="결제">결제</button>
         </div>
         </form>
+        {% endfor %}
+
+        <div class="orders_section">
+          <form action="http://127.0.0.1:5000/orders/{{ user_id }}" method="GET">
+            <button type="submit" name="action" value="결제">결제</button>
+          </form>
+        </div>
             
     
       </ul>

@@ -79,12 +79,3 @@ def edit():
             return redirect(url_for('cart.get', user_id=user_id))
         except:
             return("오류"), 401
-    elif request.form['action'] == '결제':
-        user_id = request.form["user_id"]
-        try:
-            products = request.form.getlist('products')    
-            products = ','.join(products)        
-
-            return redirect(url_for('orders.get', user_id=user_id, products=products, code=301))
-        except:
-            return("오류"), 401
