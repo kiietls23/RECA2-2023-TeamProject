@@ -6,7 +6,7 @@ from my_settings import PW
 
 
 
-bp = Blueprint('login', __name__, url_prefix='/user' )
+bp = Blueprint('login', __name__, url_prefix='/users' )
 
 db = pymysql.connect(host='localhost',            # database 접근
                     user='root',
@@ -19,11 +19,11 @@ cursor = db.cursor()                               # database 테이블에 접�
 
 
 
-@bp.route('/sign_in')
+@bp.route('/signin')
 def login_page():
     return render_template('/signin.html')
 
-@bp.route('/sign_in', methods=['GET', 'POST'])
+@bp.route('/signin', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         email = request.form['email']
@@ -42,9 +42,9 @@ def login():
     else:
         return render_template ('signin.html')
     
-@bp.route('/sign_up')
+@bp.route('/signup')
 def sign_up_page():
-    return render_template('sign_up-2.html')
+    return render_template('signup.html')
 
 @bp.route('/log_out')
 def logout():
