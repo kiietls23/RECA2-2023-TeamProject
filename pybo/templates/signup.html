@@ -16,13 +16,22 @@
         width: 100%;
         height: 100vh;
         min-height: 850px;
-        color: #0b65eb;
+        color: rgb(255 255 255);
         
         font-size: 15px;
         font-weight: 400;
         line-height: 1.4;
         font-family: 'Montserrat', 'Pretendard', sans-serif;
       }
+      .click {
+        display: flex;
+        justify-content: center;
+    }
+    input#click-bt {
+      height: 30px;
+      width: 30%;
+      border-radius: 4px;
+  }
       #logo_box{
         display: flex;
         justify-content: center;
@@ -33,7 +42,6 @@
         text-decoration: none;
         color: rgb(23, 102, 240);
         text-shadow: 1px 1px 1px white;
-         
     }
       
       button {
@@ -73,6 +81,33 @@
         font-weight: 400;
         font-family: 'Montserrat', 'Pretendard', sans-serif;
         
+      }
+      .box1 {
+        width: 30%;
+        height: 50px;
+        box-sizing: border-box;
+        padding: 5px 0 5px 15px;
+        border-radius: 4px;
+        border: 1px solid #d9d6d6;
+        color: #383838;
+        font-weight: 400;
+        font-family: 'Montserrat', 'Pretendard', sans-serif;
+      }
+      .box2 {
+        width: 30%;
+        height: 50px;
+        box-sizing: border-box;
+        padding: 5px 0 5px 15px;
+        border-radius: 4px;
+        border: 1px solid #d9d6d6;
+        color: #383838;
+        font-weight: 400;
+        font-family: 'Montserrat', 'Pretendard', sans-serif;
+      }
+      .box3 {
+        border-radius: 4px;
+        background-color: #ffffff;
+        color: #000000;
       }
       
       .box::placeholder {
@@ -133,7 +168,7 @@
       
       /* HEADER */
       header  {
-        width: 100%;
+        width: 30%;
       }
       
       header h2 {
@@ -142,6 +177,7 @@
         font-weight: 700;
         margin-bottom: 3px;
       }
+
       
       /* SECTION */
       section {
@@ -214,6 +250,7 @@
         background-color: #ebe9e9;
         border-radius: 6px;
       }
+
       
       /* SUBMIT */
       button#submit {
@@ -232,6 +269,10 @@
         text-align: center;
         color:red;
         font-size: 13px;
+      }
+      /* click */
+      .click {
+        weight: 100
       }
       
       /* TO SIGNIN */
@@ -290,12 +331,13 @@
           box-shadow: none;
         }
       
-       
+
         .content {
           width: 85vw;
           min-width: 380px;
         }
       }
+      
   </style>
 </head>
 <body>
@@ -306,11 +348,11 @@
         </span>
     </a>
 </div>
-  <div class="tm-video-wrapper">
-    <i id="tm-video-control-button" class="fas fa-pause"></i>
-    <video autoplay muted loop id="tm-video">
-        <source src="C:\Users\Modestday\Desktop\class\study web/wave-cafe-video-bg.mp4" type="video/mp4">
-    </video>
+<div class="tm-video-wrapper">
+  <i id="tm-video-control-button" class="fas fa-pause"></i>
+  <video autoplay muted loop id="tm-video">
+      <source src="{{url_for('static',filename='video/wave-cafe-video-bg.mp4')}}" type="video/mp4">
+  </video>
   </div>
   <div class="container">
     <div class="content">
@@ -343,11 +385,10 @@
             </div>
           </div>
           <div class="info" id="email">
-            <input class="box" id="email-txt" type="text" name="email" placeholder="이메일 입력"/>
-            <button id="email-check" type="button" onclick="checkEmail()">중복 확인</button>
+            <input class="box1"  id="email-txt" type="text" name="email" placeholder="이메일 입력"/>
             <span>@</span>
-            <input class="box" id="domain-txt" type="text" value="" name="domain" placeholder=""/>
-            <select class="box" id="domain-list" onchange="realchange()">
+            <input class="box2" id="domain-txt" type="text" value="" name="domain" placeholder=""/>
+            <select class="box2" id="domain-list" onchange="realchange()">
               <option value="type">직접 입력</option>
               <option value="naver.com">naver.com</option>
               <option value="google.com">google.com</option>
@@ -356,14 +397,18 @@
               <option value="kakao.com">kakao.com</option>
             </select>
           </div>
-      
+          <div class="info" id="check">
+            <button class="box3" id="email-check" type="button" onclick="checkEmail()">중복 확인</button>
+          </div>
           <div class="info" id="phone">
             <input class="box" type="text" name="phone" placeholder="휴대폰 번호 입력 (‘-’ 제외 11자리 입력)"/>
             <div class="error-msg"></div>
           </div>
         </section>
         <div id="result-fail"></div>
-        <input type="submit" value="signup">
+        <div class="click">
+        <input id="click-bt" type="submit" value="signup">
+        </div>
       </form>      
       <div class="exist">
         <span>이미 회원이신가요?</span>
@@ -375,19 +420,21 @@
 <script>
   
   function realchange(){
-    var mail_select = document.getElementById("domain-list");
-    var selectValue = mail_select.options[mail_select.selectedIndex].value;
-    var selectText = mail_select.options[mail_select.selectedIndex].text;
-    document.getElementById('domain-txt').value=''
-    if( selectText != "직접 입력"){
-    document.querySelector('#domain-txt').readOnly = true;
-    document.querySelector('#domain-txt').setAttribute('placeholder',selectText);
+  var mail_select = document.getElementById("domain-list");
+  var selectValue = mail_select.options[mail_select.selectedIndex].value;
+  var selectText = mail_select.options[mail_select.selectedIndex].text;
+  var domainTxt = document.getElementById('domain-txt');
 
-    }else{
-      document.querySelector('#domain-txt').readOnly = false;
-      document.querySelector('#domain-txt').setAttribute('placeholder',"")
-    }
-  }    
+  domainTxt.setAttribute('placeholder', '');
+  if (selectText != "직접 입력") {
+    domainTxt.readOnly = true;
+    domainTxt.value = selectText;
+  } else {
+    domainTxt.readOnly = false;
+    domainTxt.value = '';
+  }
+}
+  
 
 
     function checkEmail() {

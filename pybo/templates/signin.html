@@ -51,7 +51,7 @@ form{
 }
 form *{
     font-family: 'Poppins',sans-serif;
-    color: #3274f8d2;
+    color: #ffffff;
     letter-spacing: 0.5px;
     outline: none;
     border: none;
@@ -107,7 +107,7 @@ button:focus {
 }
 .social div{
   background: red;
-  width: 150px;
+  width: 100px;
   border-radius: 3px;
   padding: 5px 10px 10px 5px;
   background-color: rgba(0, 0, 0, 0.808);
@@ -115,13 +115,13 @@ button:focus {
   text-align: center;
 }
 .social div:hover{
-  background-color: rgba(97, 97, 98, 0.911);
+background-color: rgba(97, 97, 98, 0.911);
 }
 .social .fb{
-  margin-left: 25px;
+margin-left: 25px;
 }
 .social i{
-  margin-right: 4px;
+margin-right: 4px;
 }
 #pond{
     display: flex;
@@ -131,11 +131,11 @@ button:focus {
     width: 300px;
 }
 .tm-video-wrapper{
-      z-index: -1000;
-      position: absolute;
-      top:0;
-      width:100%;
-      height:100%;
+    z-index: -1000;
+    position: absolute;
+    top:0;
+    width:100%;
+    height:100%;
     }
     </style>
 </head>
@@ -155,10 +155,10 @@ button:focus {
     </div>
     
     
-    <h3>Login Here</h3>
-    <form method="post" action="/user/sign_in">
+    
+    <form method="post" action='signin'>
         <label for="email">email:</label>
-        <input type="email" placeholder="Email or ID" id="email" name="email" required>
+        <input type="email" placeholder="Email" id="email" name="email" required>
         <br>
         <label for="password">password:</label>
         <input type="password" placeholder="Password" id="password" name="password" required>
