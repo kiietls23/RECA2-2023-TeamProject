@@ -9,7 +9,6 @@ bp = Blueprint('orders', __name__, url_prefix='/orders')
 db = pymysql.connect(host='127.0.0.1', user='root', password=PW, db='shop', charset='utf8')
 cursor = db.cursor()
 
-
 @bp.route('/<int:user_id>', methods=('GET', 'POST'))
 # 장바구니에서 가져온 결제 정보 조회(payments, products 테이블)
 def get(user_id):

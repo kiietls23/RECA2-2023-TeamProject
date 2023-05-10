@@ -62,13 +62,6 @@
       padding:0 10px;
     }
 
-
-
-
-
-    
-
-
     #wrap{
       width:100%;
       height:500px;
@@ -186,14 +179,8 @@
   #password_modify_box input{
     display: inline-block;    
   }
-
-
-
-
   </style>
   <script>
-      
-
       function check_pw(){
         var new_pw = document.getElementById('new_pw').value;
         var check_new_pw = document.getElementById('check_new_pw').value;
@@ -218,19 +205,9 @@
           window.location.reload()
         }
       }
-
-
-
   </script>
 </head>
-<header id="header">
-  
-  <div class="logout_btn">
-    <span><a href="{{url_for('login.logout')}}" >Logout</a></span>
-  </div>
-  <h6 id="clock" ><small>{{session['name']}}님<br>안녕하세요</small></h6>
-
-</header>
+{% include('sub_header.html') %}
 <body class="sub_page">
   <div class="hero_area">
     <!-- header section strats -->
@@ -272,12 +249,6 @@
         </aside>
         <main>
           <article id="mypage_contents" style="margin:30px; padding:30px;">
-
-
-
-
-
-
             <div id="password_modify_box">
               <form method="POST" action="password_change">
               <input type="text" placeholder="새로운 비밀번호 입력" id="new_pw" name="pw">

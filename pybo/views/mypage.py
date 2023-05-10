@@ -1,4 +1,3 @@
-
 from flask import Blueprint, render_template, Flask, url_for, redirect, request, g, session
 
 import pymysql
@@ -173,4 +172,3 @@ def get(user_id):
         return render_template('history.html', product=product, user_id=user_id)
     except Exception as e:
         return f"Error: {str(e)}", 500
-
