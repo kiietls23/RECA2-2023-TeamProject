@@ -15,10 +15,10 @@
 이름 | github | blog
 -- | -- | --
 박신영(PM) | https://github.com/kiietls23 | https://logforlog.tistory.com/
-계민준 |  | 
+계민준 | - | -
 박민하 | https://github.com/miracle-21 | https://minha0220.tistory.com/
-오재민 |  | 
-이주승 |  | 
+오재민 | - | -
+이주승 | https://github.com/Yetwhom | -
 이준서 | https://github.com/barqraria | -
 
 ## ✍ 기술 스택
@@ -34,14 +34,16 @@ Language | Framework | Database | Tool
 |  | /user/info | POST  | 회원정보수정 | 잔액 확인/충전 미구현
 |  | /user/pw_change | POST | 비밀번호변경 |
 |  | /user/del | POST | 회원정보삭제 |
+|  | /search | GET | 검색 | 태그 검색 미구현
 | 주승 | /users/signin | GET | 로그인 | ID/PW 찾기 기능 미구현
 |  | /users/signup | POST | 회원가입 | 중복확인 오류
 |  | /users/log_out | GET | 로그아웃 |
-| 준서 | /products/:id | GET | 상세페이지 | css 미적용
+| 준서 | /products/:id | GET | 상세페이지 | css 적용중 <br> href 미적용
 | 민하 | /products/:id | POST | 장바구니 등록 |
-|  | /cart/:user_id | GET | 장바구니 조회 | 개별 상품 결제버튼 미구현
+|  | /cart/:user_id | GET | 장바구니 조회 | 개별 상품 결제버튼 미구현 <br> 결제버튼 위치 수정 필요
 |  | /cart/:user_id | POST | 장바구니 수정/삭제 |
 | 신영 | /orders/:user_id | POST | 상품 결제 |
+|  | /user/history/:user_id | GET | 주문내역 조회 | 주문내역 저장 오류
 | 민준 | /users/ | GET | 결제 내역 조회 |
 
 
