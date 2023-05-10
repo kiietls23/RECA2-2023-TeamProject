@@ -188,7 +188,7 @@
   
         <!-- 결제 정보 확인 체크박스 동의 필수 -> 결제 버튼 활성화 -->
         <form action="http://127.0.0.1:5000/orders/{{user_id}}/payment" method="POST">
-          <input value="{{sum_total}}" type="text" name="sum_total" style="display: none;">
+          <input val  ue="{{sum_total}}" type="text" name="sum_total" style="display: none;">
           <input type="checkbox" name="agreements" onClick="agreeCheck(this.form)"> 결제 정보를 확인했습니다.<br><br><br>
           <input type="submit" name="checkButton" value="결제하기" disabled><br><br><br>
         </form>

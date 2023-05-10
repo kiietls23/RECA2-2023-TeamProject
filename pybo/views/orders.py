@@ -70,8 +70,11 @@ def payment(user_id):
         return("GET"), 200
         
     elif request.method == 'POST':
-
-        cursor.execute("SELECT user_id, u.wallet_id, w.rest from wallet as w join users as u where user_id='{}';".format(user_id))
+        print(type(user_id))
+        cursor.execute("""select u.user_id, u.wallet_id, w.rest 
+                       from wallet as w join users as u 
+                       on u.wallet_id = w.wallet_id 
+                       where u.user_id={}""".format(user_id))
         wallet = cursor.fetchone()
 
         user_id = wallet[0]
@@ -79,7 +82,6 @@ def payment(user_id):
         rest = int(float(wallet[2]))
 
         sum_total = int(float(request.form['sum_total']))
-
 
             # 총 금액과 지갑 비교
         if sum_total <= rest:

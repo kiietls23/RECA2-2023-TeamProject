@@ -1,4 +1,3 @@
-
 from flask import Blueprint, render_template, Flask, url_for, redirect, request, g, session
 
 import pymysql
@@ -54,7 +53,7 @@ def info_change():
         after_address = request.form['address']
         cursor.execute("UPDATE users SET phone = %s, email = %s, address = %s WHERE user_id = %s", (after_phone, after_email, after_address, id,))
         db.commit()
-        return redirect(url_for('mypage.info_page'))
+        return redirect(url_for('mypage.info_page',))
     else:
         pw = None
     return redirect('/info')
@@ -126,3 +125,45 @@ def delete():
         user_id = None
         return redirect(url_for('del_page'))
 
+## 주문 내역 조회 페이지
+
+@bp.route('/history')
+def history():
+    if session:
+        email = session['email']
+        password = session['password']
+        cursor.execute('SELECT * FROM users WHERE email = %s AND password = %s', (email, password))
+        user = cursor.fetchone()
+        if user:
+            user_id = user[0]
+            return redirect(url_for('mypage.get',user_id=user_id))
+    return redirect(url_for('login.login'))
+
+
+@bp.route('/history/<int:user_id>', methods=['GET'])
+def get(user_id):
+    try:
+        id = user_id
+        cursor.execute("""select p.description, p.name, p.tag, s.price, p.delivery_charge, s.count, s.created_at
+                    from payments as s join products as p
+                    on s.product_id = p.product_id
+                    where s.user_id={}
+                    """.format(id))
+
+        history = cursor.fetchall()
+        product = [
+            {
+                'description': prod[0],
+                'name': prod[1],
+                'tag': prod[2],
+                'price': int(prod[3]),
+                'delivery_charge': int(prod[4]),
+                'total_price' : int(((prod[3]*prod[5])+prod[4])),
+                'count' : prod[5],
+                'created_at' : prod[6],
+                
+            } for prod in history
+        ]
+        return render_template('history.html', product=product, user_id=user_id)
+    except Exception as e:
+        return f"Error: {str(e)}", 500
