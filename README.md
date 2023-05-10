@@ -37,7 +37,7 @@ Language | Framework | Database | Tool
 | 주승 | /users/signin | GET | 로그인 | ID/PW 찾기 기능 미구현
 |  | /users/signup | POST | 회원가입 | 중복확인 오류
 |  | /users/log_out | GET | 로그아웃 |
-| 준서 | /products/:id | GET | 상세페이지 | 결 css 미적용
+| 준서 | /products/:id | GET | 상세페이지 | css 미적용
 | 민하 | /products/:id | POST | 장바구니 등록 |
 |  | /cart/:user_id | GET | 장바구니 조회 | 개별 상품 결제버튼 미구현
 |  | /cart/:user_id | POST | 장바구니 수정/삭제 |
