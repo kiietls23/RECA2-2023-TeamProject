@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, Flask, url_for, redirect,request, session
 import pymysql
+import random
 import pandas as pd
 from my_settings import PW
 
@@ -12,19 +13,15 @@ db = pymysql.connect(host='localhost',
 cursor = db.cursor() 
 @bp.route('/')
 def main():
-    cursor.execute("select * from products order by rand() limit 6")
-    item_url = cursor.fetchall()
-    
+    nn = random.sample(range(0, 18), 6)
+    product_ids = [str(n) for n in nn]  # convert product_ids to strings
 
-    cursor.execute("SELECT SUBSTRING_INDEX(name, ' ', 1) from products")
-    item_title = cursor.fetchall()
+    query = "SELECT description, SUBSTRING_INDEX(name, ' ', 1), product_id FROM products WHERE product_id IN ({}, {}, {}, {}, {}, {})".format(*product_ids)
+    cursor.execute(query)
+    results = cursor.fetchall()
 
-    data_list = [{'images': a[2], 'titles': b[0]} for a, b in zip(item_url, item_title)]
+    data_list = [{'description': row[0], 'titles': row[1], 'product_id': str(row[2])} for row in results]
     data = pd.DataFrame(data_list)
+    data_list = zip(data['description'], data['titles'], data['product_id'])
 
-    data_list = zip(data['images'], data['titles'])
-    
-    return render_template('/index_before_login.html', data=data_list) 
-
-
-
+    return render_template('/index_before_login.html', data=data_list)

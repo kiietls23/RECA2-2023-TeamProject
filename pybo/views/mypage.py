@@ -54,7 +54,7 @@ def info_change():
         after_address = request.form['address']
         cursor.execute("UPDATE users SET phone = %s, email = %s, address = %s WHERE user_id = %s", (after_phone, after_email, after_address, id,))
         db.commit()
-        return redirect(url_for('mypage.info_page'))
+        return redirect(url_for('mypage.info_page',))
     else:
         pw = None
     return redirect('/info')
@@ -112,17 +112,65 @@ def del_page():
     
 
 
-@bp.route('/delete',methods=['POST'])
+@bp.route('/delete', methods=['POST'])
 def delete():
-        
     if request.method == 'POST':
-        email = session['email']
-        cursor.execute('DELETE FROM users WHERE email = %s', (email,))
-        cursor.execute("SET @num := 0")
-        cursor.execute("UPDATE users SET user_id = @num := @num + 1" )
+        id = request.form['idd'] # retrieve the id_num value from the POST request data
+        tables = ['users', 'wallet', 'payments'] # list of table names
+        for table in tables:
+            cursor.execute(f"SELECT * FROM {table}")
+            column_names = [description[0] for description in cursor.description]  # 열 이름 추출
+            cursor.execute(f"DELETE FROM {table} WHERE {column_names[0]} = %s", (id,))
+            cursor.execute(f"SET @num := 0")
+            cursor.execute(f"UPDATE {table} SET {column_names[0]} = @num := @num + 1")
         db.commit()
         return redirect(url_for('login.logout'))
     else:
         user_id = None
         return redirect(url_for('del_page'))
+
+## 주문 내역 조회 페이지
+
+@bp.route('/history')
+def history():
+    if session:
+        email = session['email']
+        password = session['password']
+        cursor.execute('SELECT * FROM users WHERE email = %s AND password = %s', (email, password))
+        user = cursor.fetchone()
+        if user:
+            user_id = user[0]
+            return redirect(url_for('mypage.get',user_id=user_id))
+    return redirect(url_for('login.login'))
+
+
+# 
+
+@bp.route('/history/<int:user_id>', methods=['GET'])
+def get(user_id):
+    try:
+        id = user_id
+        cursor.execute("""select p.description, p.name, p.tag, s.price, p.delivery_charge, s.count, s.created_at
+                    from payments as s join products as p
+                    on s.product_id = p.product_id
+                    where s.user_id={}
+                    """.format(id))
+
+        history = cursor.fetchall()
+        product = [
+            {
+                'description': prod[0],
+                'name': prod[1],
+                'tag': prod[2],
+                'price': int(prod[3]),
+                'delivery_charge': int(prod[4]),
+                'total_price' : int(((prod[3]*prod[5])+prod[4])),
+                'count' : prod[5],
+                'created_at' : prod[6],
+                
+            } for prod in history
+        ]
+        return render_template('history.html', product=product, user_id=user_id)
+    except Exception as e:
+        return f"Error: {str(e)}", 500
 

@@ -27,8 +27,9 @@
   <!-- responsive style -->
   <link href="{{ url_for('static',filename='css/resposive.css') }}"rel="stylesheet" />
   <style>
-      #header {
-      display:flex;
+    
+    .logout_btn:hover{
+      background-color: red;
     }
     .info_section .info_logo h2 {
       font-size: 6.5rem;
@@ -37,19 +38,7 @@
       font-weight: bold;
   }
 
-
-    .login_btn{
-      position: absolute;
-      top:2%;
-      left:11.5%;;
-      z-index: 990;
-      color:white;
-      padding:0 10px;
-      border: 1px solid white;
-      border-radius: 10px;
-    }
-
-
+    
     .logout_btn{
       position: absolute;
       top:2%;
@@ -65,40 +54,14 @@
       color:white;
     }
 
-    .login_btn *{
-      color:white;
-    }
-    #clock{
-      position: absolute;
-      top:2%;
-      left:19%;;
-      z-index: 990;
-      color:white;
-      padding:0 10px;
-    }
+
+
+
+
+
+
+
     
-
-    .login_btn:hover{
-      background-color: green;
-    }
-    
-
-    .logout_btn:hover{
-      background-color: red;
-    }
-
-
-
-    form{
-      display: block;
-      text-align: center;
-      width:100%;
-      height:100%;
-    }
-   
-    .login_btn>span>a{
-      color: white;
-    }
 
 
     #wrap{
@@ -126,7 +89,7 @@
     right: auto;
     border-radius: 10px;
    }
-   aside li:nth-child(2){
+   aside li:nth-child(5){
     list-style: none;
     padding:10px 0px;
     margin:10px 0px;
@@ -147,26 +110,27 @@
     color:black;
    }
    
-
+   #clock{
+      position: absolute;
+      top:2%;
+      left:19%;;
+      z-index: 990;
+      color:white;
+      padding:0 10px;
+    }
    
    #wrap main{
     width:100%;
     display: flex;
-    justify-content: space-between;
-
+    justify-content: stretch;
    }
    #wrap article:nth-child(1){
-    background-color: 100%;
+    width:100%;
    }
   
   #mypage_contents{
-    width:100%;
-    align-items: center;
-    border: 1px solid black;
-    padding-top:10%;;
-  
+    border:1px solid black;
   }
-
 
 
 
@@ -213,62 +177,83 @@
     border:1px solid black;
   }
 
+
   .personal_info{
-  margin: 1px 5px 0px 5px;
+  margin-top:10px;
   display: block;
-  width:40%;
-  height: 30px;
+  width:200px;
+  height: 20px;
   background-color: white;
-  border: 1px solid gray;
-}
-
-#mypage_contents li{
-  display: flex;
-  width:100%;
-  justify-content: space-between;
-  padding-right:5%;
-}
-#mypage_contents ul {
-
- width:100%;
- padding: 0 40px;
-}
-#mypage_contents li span{
-margin-left:10%;
-margin: 0 auto;
+  margin-left:5px;
 }
 
 
+form>ul {
+display: none;
+
+}
+
+
+#mypage_contents>ul li span:nth-child(1){
+  width:70px;
+  margin-top:10px;
+  padding-left:3px;
+}
 
 button:hover{
   background-color: red;
   color:white;
   font-weight: bold;
 }
+img.productimg {
+  width: 78px;
+  float: left;
+}
+
+.box {
+  margin-right: 8px;
+}
+#box1 {
+  float: left;
+}
+#box2 {
+  float: ;
+}
+#box3 {
+  float: left;
+}
+#box4 {
+  float: left;
+}
+#box5 {
+  float: left;
+}
+#box6 {
+  float: left;
+}
+div#allbox {
+  width: 100%;
+  height: 33%;
+}
+
+
+
 
   </style>
   <script>
-      function confirm_change_info(){
-        var change_info_result = confirm("정말로 개인정보를 변경하시겠습니까?")
+    function confirm_delete_info(){
+        var delete_info_result = confirm("탈퇴 하시겠습니까?")
 
-        if(change_info_result == true){
+        if(delete_info_result == true){
           alert("변경되었습니다.")
           window.location.reload() 
         }else{
           window.location.reload()
         }
       }
-
   </script>
 </head>
-<header id="header">
-
-      <div class="logout_btn">
-        <span><a href="{{url_for('login.logout')}}" >Logout</a></span>
-      </div>
-      <h6 id="clock" ><small>{{session['name']}}님<br>안녕하세요</small></h6>
-     
-</header>
+{% include('sub_header.html') %}
 <body class="sub_page">
   <div class="hero_area">
     <!-- header section strats -->
@@ -284,7 +269,6 @@ button:hover{
 
   <!-- nav section -->
   {% include('nav.html') %}
-  <!-- end nav section -->
 
   <!-- fruit section -->
 
@@ -306,34 +290,27 @@ button:hover{
             <li><a href="{{url_for('mypage.pw_page')}}">비밀번호변경</a></li>
             <li><a href="{{url_for('mypage.del_page')}}">회원탈퇴</a></li>
             <li><a href="{{url_for('mypage.history')}}">주문내역조회</a></li>
+          
+
           </ul>
         </aside>
         <main>
-          <article id="mypage_contents">
-            <form method="POST" action="info_change">
-              <ul style="list-style: none;">
-                {% for result in results %}
-              <li><span>이름</span><input class="personal_info" value="{{ result.name }}"  readonly></li>
-              <li><span>가입일자</span><input class="personal_info" value="{{ result.created_at }}" readonly></li>
-              <li><span>아이디</span><input class="personal_info" value="{{ result.id }}" name="user_id" readonly> </li>
-              <li><span>전화번호</span><input class="personal_info" placeholder="{{ result.phone }}" value="{{ result.phone }}" name="phone"></li>
-              <li><span>이메일</span><input class="personal_info" placeholde="{{ result.email }}"value="{{ result.email }}" name="email"></li>
-              
-              <li><span style="padding:auto;">주소</span><input class="personal_info"  placeholder="{{ result.address }}" value="{{ result.address }}" name="address"></li>
-
-              {% endfor %}
-              </ul>
-
-
-              <button  onclick="confirm_change_info()" style="position:relative; top:5%; height:50px; width:100px; border-radius:10px;">
-                변경
-              </button>
-            
-              </ul>
-            </form>
-
-              
-            
+          <article id="mypage_contents" style="margin:30px; padding:30px; overflow:scroll;">
+        
+        {% for result in product %}
+          <h3>{{ loop.index }} </h3>
+          <div class="box" id="allbox">
+          <div class="box" id="box1"> <p><img src="{{ result.description }}" class="productimg" alt="..." sytel="width:100px; height:100px;"></p></div>
+          <div class="box" id="box2"> <p>이름: {{ result.name }}</p></div>
+          <div class="box" id="box3"> <p>품목: {{ result.tag }}</p></div>
+          <div class="box" id="box4"> <p>가격: {{ result.price }}</p></div>
+          <div class="box" id="box4"> <p>개수: {{ result.count }}</p></div>
+          <div class="box" id="box5"> <p>배달비: {{ result.delivery_charge }}</p></div>
+          <div class="box" id="box6"> <p>총가격: {{ result.total_price }}<p></div>
+          <div class="box" id="box7"> <p>결제일자: {{ result.created_at }}<p></div>
+          </div>
+        {% endfor %}
+        
           </article>
           <article id="wallet">
             <h4>Account</h4>
@@ -364,21 +341,36 @@ button:hover{
       <div class="info_contact">
         <div class="row">
           <div class="col-md-4">
-          
+            <a href="">
+              
+              <span>
+
+              </span>
+            </a>
           </div>
           <div class="col-md-4">
-        
+            <a href="">
+              <img src="images/call.png" alt="">
+              <span>
+	
+
+              </span>
+            </a>
           </div>
           <div class="col-md-4">
-            
+            <a href="">
+              <img src="images/mail.png" alt="">
+              <span>
+              
+              </span>
+            </a>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-8 col-lg-9">
           <div class="info_form">
-            
-            
+          
           </div>
         </div>
         <div class="col-md-4 col-lg-3">
@@ -438,23 +430,23 @@ button:hover{
         count += 100;
         countBox.innerHTML = new Intl.NumberFormat().format(count)+" $";
     }, 20);
-</script>
-<script>
-  function transfer(k) {
-    var value = k.innerHTML;
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/products', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            console.log(xhr.responseText);
-        }
-    };
-    xhr.send('value=' + value);
-    window.location.href='/products/'+value;
-  }
+  </script>
+  <script>
+    function transfer(k) {
+      var value = k.innerHTML;
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/products', true);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.onreadystatechange = function() {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+              console.log(xhr.responseText);
+          }
+      };
+      xhr.send('value=' + value);
+      window.location.href='/products/'+value;
+    }
 
-</script>
+  </script>
 </body>
 
 </html>

@@ -11,7 +11,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
   
-    <title>Ninom</title>
+    <title>ETEVERSE</title>
   
     <!-- slider stylesheet -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
@@ -30,6 +30,13 @@
       #header {
       display:flex;
     }
+    .info_section .info_logo h2 {
+      font-size: 6.5rem;
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: bold;
+  }
+
 
     .login_btn{
       position: absolute;
@@ -94,49 +101,7 @@
   <!-- end header section -->
 
     <!-- nav section -->
-
-    <section class="nav_section">
-      <div class="container">
-        <div class="custom_nav2">
-          <nav class="navbar navbar-expand custom_nav-container ">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-  
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <div class="d-flex  flex-column flex-lg-row align-items-center">
-                <ul class="navbar-nav  ">
-                  
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">TOPS</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">BOTTOMS</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">SHOES</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Cart</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('mypage.info_page')}}">My Page</a>
-                  </li>
-                </ul>
-                
-              </div>
-            </div>
-            <div id="search_container">
-              <input class="learn-more">
-            </div>
-            <form id="search_btn" class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0">
-              <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit"></button>
-            </form>
-          </nav>
-        </div>
-      </div>
-    </section>
-  
+    {% include('nav.html') %}
     <!-- end nav section -->
 
   <body>
@@ -188,7 +153,7 @@
   
         <!-- 결제 정보 확인 체크박스 동의 필수 -> 결제 버튼 활성화 -->
         <form action="http://127.0.0.1:5000/orders/{{user_id}}/payment" method="POST">
-          <input value="{{sum_total}}" type="text" name="sum_total" style="display: none;">
+          <input val  ue="{{sum_total}}" type="text" name="sum_total" style="display: none;">
           <input type="checkbox" name="agreements" onClick="agreeCheck(this.form)"> 결제 정보를 확인했습니다.<br><br><br>
           <input type="submit" name="checkButton" value="결제하기" disabled><br><br><br>
         </form>
@@ -211,46 +176,27 @@
     <div class="container">
       <div class="info_logo">
         <h2>
-          NiNom
+          ETEVERSE
         </h2>
       </div>
       <div class="info_contact">
         <div class="row">
           <div class="col-md-4">
-            <a href="">
-              <img src="images/location.png" alt="">
-              <span>
-                Passages of Lorem Ipsum available
-              </span>
-            </a>
+          
           </div>
           <div class="col-md-4">
-            <a href="">
-              <img src="images/call.png" alt="">
-              <span>
-                Call : +012334567890
-              </span>
-            </a>
+        
           </div>
           <div class="col-md-4">
-            <a href="">
-              <img src="images/mail.png" alt="">
-              <span>
-                demo@gmail.com
-              </span>
-            </a>
+            
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-8 col-lg-9">
           <div class="info_form">
-            <form action="">
-              <input type="text" placeholder="Enter your email">
-              <button>
-                subscribe
-              </button>
-            </form>
+            
+            
           </div>
         </div>
         <div class="col-md-4 col-lg-3">
@@ -288,8 +234,8 @@
   <!-- footer section -->
   <section class="container-fluid footer_section">
     <p>
-      &copy; <span id="displayYear"></span> All Rights Reserved By
-      <a href="#">Free Html Templates</a>
+      &copy; <span id="displayYear"></span> RECA2
+      <a href="#">ETEVERSE PROJECT</a>
     </p>
   </section>
   <!-- footer section -->
@@ -310,6 +256,22 @@
         count += 100;
         countBox.innerHTML = new Intl.NumberFormat().format(count)+" $";
     }, 20);
+</script>
+<script>
+  function transfer(k) {
+    var value = k.innerHTML;
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/products', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            console.log(xhr.responseText);
+        }
+    };
+    xhr.send('value=' + value);
+    window.location.href='/products/'+value;
+  }
+
 </script>
 </body>
 
