@@ -111,14 +111,17 @@ def del_page():
     
 
 
-@bp.route('/delete',methods=['POST'])
+@bp.route('/delete', methods=['POST'])
 def delete():
-        
     if request.method == 'POST':
-        email = session['email']
-        cursor.execute('DELETE FROM users WHERE email = %s', (email,))
-        cursor.execute("SET @num := 0")
-        cursor.execute("UPDATE users SET user_id = @num := @num + 1" )
+        id = request.form['idd'] # retrieve the id_num value from the POST request data
+        tables = ['users', 'wallet', 'payments'] # list of table names
+        for table in tables:
+            cursor.execute(f"SELECT * FROM {table}")
+            column_names = [description[0] for description in cursor.description]  # 열 이름 추출
+            cursor.execute(f"DELETE FROM {table} WHERE {column_names[0]} = %s", (id,))
+            cursor.execute(f"SET @num := 0")
+            cursor.execute(f"UPDATE {table} SET {column_names[0]} = @num := @num + 1")
         db.commit()
         return redirect(url_for('login.logout'))
     else:
@@ -139,6 +142,8 @@ def history():
             return redirect(url_for('mypage.get',user_id=user_id))
     return redirect(url_for('login.login'))
 
+
+# 
 
 @bp.route('/history/<int:user_id>', methods=['GET'])
 def get(user_id):

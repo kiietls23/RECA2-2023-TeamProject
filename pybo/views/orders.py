@@ -42,6 +42,8 @@ def get(user_id):
             for p in payments:
                 sum_total += p['total_price']
                 item_count += p['count']
+            
+            session['test'] = sum_total
 
             # 주문자 정보 조회
             cursor.execute("select name, email, address, phone from users where user_id={};".format(user_id))
@@ -54,37 +56,36 @@ def get(user_id):
                     'phone' : u[3]
                 } for u in user_info
             ]
-
-            # return redirect(url_for('bp.payment', user_id=user_id, sum_total=sum_total))
+            
             return render_template('orders.html', payments=payments, sum_total=sum_total, item_count=item_count, user_info=user_info, user_id=user_id)
 
         except:
             None
             # return("오류"), 401
-          
+        
         
 @bp.route('/<int:user_id>/payment', methods=('GET', 'POST'))
 def payment(user_id):
     if request.method == 'GET':
-       
+    
         return("GET"), 200
         
     elif request.method == 'POST':
-        print(type(user_id))
         cursor.execute("""select u.user_id, u.wallet_id, w.rest 
-                       from wallet as w join users as u 
-                       on u.wallet_id = w.wallet_id 
-                       where u.user_id={}""".format(user_id))
+                        from wallet as w join users as u 
+                        on u.wallet_id = w.wallet_id 
+                        where u.user_id={}""".format(user_id))
         wallet = cursor.fetchone()
+        
 
         user_id = wallet[0]
         wallet_id = wallet[1]
         rest = int(float(wallet[2]))
 
-        sum_total = int(float(request.form['sum_total']))
+        sum_total = session.get('test')
 
             # 총 금액과 지갑 비교
-        if sum_total <= rest:
+        if int(sum_total) <= rest:
             afterest = rest - sum_total
             cursor.execute("update wallet set rest='{}' where wallet_id = {};".format(afterest, wallet_id))
             db.commit()
@@ -141,7 +142,6 @@ def getproduct(product_id, count):
             } for u in user_info
         ]
 
-        # return redirect(url_for('bp.payment', user_id=user_id, sum_total=sum_total))
         return render_template('orders.html', payments=payments, sum_total=sum_total, item_count=item_count, user_info=user_info, user_id=user_id)
 
     except:

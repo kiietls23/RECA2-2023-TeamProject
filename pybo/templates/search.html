@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+
+#header {
+    display:flex;
+  }
+
+  .login_btn{
+    position: absolute;
+    top:2%;
+    left:11.5%;;
+    z-index: 990;
+    color:white;
+    padding:0 10px;
+    border: 1px solid white;
+    border-radius: 10px;
+  }
+  .login_btn *{
+    color:white;
+  }
+
+  .login_btn:hover{
+    background-color: green;
+  }
+  
+/* 로그아웃 버튼 */
+.logout_btn:hover{
+    background-color: red;
+}
+
+.logout_btn{
+    position: absolute;
+    top:2%;
+    left:11.5%;;
+    z-index: 990;
+    color:white;
+    padding:0 10px;
+    border: 1px solid white;
+    border-radius: 10px;
+}
+
+.logout_btn *{
+    color:white;
+}
+
+
+/* 로그아웃 버튼 옆 사용자 이름 알림 */
+    #clock{
+    position: absolute;
+    top:2%;
+    left:19%;;
+    z-index: 990;
+    color:white;
+    padding:0 10px;
+    }
+/* body */
+#wrap{
+    width:100%;
+    height:500px;
+    display: flex;
+    padding:0px 100px 0px 100px;
+}
+    #search_form{
+      display:flex;
+  }
+    #answer_box{
+  width:100%;
+  height:200px;
+  display: flex;
+  
+}
+#answer_box div{
+  border: 2.3px solid orange;
+  display: flex;
+  height:200px;
+  align-items: center;
+  justify-content: center;
+}
+#answer_box a{
+  display:block;
+  width:100%;
+  display: flex;
+  height:200px;
+  align-items: center;
+  justify-content: center;
+  color:black;
+  font-size: large;
+}
+#answer_img{width:20%;}
+#answer_img img{height:90%;}
+#answer_name{width:50%;}
+#answer_tag{width:10%}
+#answer_price{width:20%;}
+
+
+  </style>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>Ninom</title>
+
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for ('static',filename='css/bootstrap.css') }}" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan|Dosis:400,600,700|Poppins:400,600,700&display=swap" rel="stylesheet" />
+  <!-- Custom styles for this template -->
+  <link href="{{ url_for ('static',filename='css/style.css') }}" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="{{ url_for ('static',filename='css/responsive.css') }}" rel="stylesheet" />
+</head>
+<header id="header">
+  {% if session %}
+  <div class="logout_btn">
+    <span><a href="{{url_for('login.logout')}}" >Logout</a></span>
+  </div>
+  <h6 id="clock" ><small>{{session['name']}}님<br>안녕하세요</small></h6>
+  {% else %}
+  <div class="login_btn">
+    <span><a href="{{url_for('login.login_page')}}" >Login</a></span>
+  </div>
+  
+  {% endif %}
+</header>
+<body class="sub_page">
+  <div class="hero_area">
+    <div class="brand_box">
+      <a class="navbar-brand" href="{{url_for('main.main')}}">
+        <span>
+          ETEVERSE
+        </span>
+      </a>
+    </div>
+    <!-- end header section -->
+  </div>
+
+  <!-- nav section -->
+
+  <section class="nav_section">
+    <div class="container">
+      <div class="custom_nav2">
+        <nav class="navbar navbar-expand custom_nav-container ">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex  flex-column flex-lg-row align-items-center">
+              <ul class="navbar-nav  ">
+                
+                <li class="nav-item">
+                  <a class="nav-link"  href="#" onclick="transfer(this);">TOPS</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link"  href="#" onclick="transfer(this);">BOTTOMS</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" onclick="transfer(this);">SHOES</a>
+                </li>
+                
+                {% if session %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('cart.cart_check') }}">Cart</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{url_for('mypage.info_page')}}">My Page</a>
+                </li>
+                {% endif%}
+              </ul>
+            </div>
+          </div>
+            <div id="search_container">
+              <form method="POST" action="{{url_for('search.search')}}">
+                <input type="text" name="keyword" placeholder="Search...">
+                <button type="submit" class="btn  my-2 my-sm-0 nav_search-btn">검색</button>
+              </form>
+            </div>
+        </nav>
+      </div> 
+    </div>
+  </section>
+
+  <!-- end nav section -->
+
+  <!-- search section -->
+
+  <section class="fruit_section layout_padding">
+    <div class="container">
+      <div class="heading_container">
+        <hr>
+        <h2>
+          Search
+        </h2>
+      </div>
+    </div>
+    <div class="container-fluid" id="answer_contents" style="overflow:scroll; text-align: center;">
+
+      {% if results %}
+        {% for result in results %}
+          <div id="answer_box"> 
+            <a href="{{ url_for('product.product', product_id=result.product_id) }}">
+              <div id="answer_img"><img src="{{result.image}}" alt="image"></div>
+              <div id="answer_name">{{result.name}}</div>
+              <div id="answer_tag">{{result.tag}}</div>
+              <div id="answer_price">{{result.price}}</div>
+            </a>
+          </div>
+        
+        {% endfor %}
+      {% else %}
+          <h1> 결과가 존재하지 않슴둥 이게 너의 미래</h1>
+      {% endif %}
+      
+    </div>
+  </section>
+
+  <!-- end search section -->
+
+  <!-- contact section -->
+  <section class="contact_section layout_padding-bottom">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="offset-lg-2 col-md-10 offset-md-1">
+          <div class="heading_container">
+            <hr>
+            <h2>
+              Request A call back
+            </h2>
+          </div>
+        </div>
+      </div>
+
+
+
+
+  <!-- info section -->
+
+  <section class="info_section layout_padding">
+    <div class="container">
+      <div class="info_logo">
+        <h2>
+          ETEVERSE
+        </h2>
+      </div>
+      <div class="info_contact">
+        <div class="row">
+          <div class="col-md-4">
+            <a href="#">
+              <img src="{{url_for('static', filename='images/location.png')}}" alt="">
+
+              <span>
+                Passages of Lorem Ipsum available
+              </span>
+            </a>
+          </div>
+          <div class="col-md-4">
+            <a href="">
+              <img src="images/call.png" alt="">
+              <span>
+                Call : +82 02-6004-7588
+              </span>
+            </a>
+          </div>
+          <div class="col-md-4">
+            <a href="">
+              <img src="images/mail.png" alt="">
+              <span>
+                demo@gmail.com
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8 col-lg-9">
+          <div class="info_form">
+            <form action="">
+              <input type="text" placeholder="Enter your email">
+              <button>
+                subscribe
+              </button>
+            </form>
+          </div>
+        </div>
+        <div class="col-md-4 col-lg-3">
+          <div class="info_social">
+            <div>
+              <a href="">
+                <img src="images/facebook-logo-button.png" alt="">
+              </a>
+            </div>
+            <div>
+              <a href="">
+                <img src="images/twitter-logo-button.png" alt="">
+              </a>
+            </div>
+            <div>
+              <a href="">
+                <img src="images/linkedin.png" alt="">
+              </a>
+            </div>
+            <div>
+              <a href="">
+                <img src="images/instagram.png" alt="">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- end info section -->
+
+
+  <!-- footer section -->
+  <section class="container-fluid footer_section ">
+    <p>
+      &copy; <span id="displayYear"></span> All Rights Reserved. Design by
+      <a href="{{url_for('main.main')}}">Free Html Templates</a>
+    </p>
+  </section>
+  <!-- footer section -->
+
+
+</body>
+<script>
+  function transfer(k) {
+    var value = k.innerHTML;
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/products', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            console.log(xhr.responseText);
+        }
+    };
+    xhr.send('value=' + value);
+    window.location.href='/products/'+value;
+  }
+
+</script>
+</html>
