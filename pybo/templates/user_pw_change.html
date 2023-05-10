@@ -55,13 +55,6 @@
       padding:0 10px;
     }
 
-
-
-
-
-    
-
-
     #wrap{
       width:100%;
       height:500px;
@@ -179,14 +172,8 @@
   #password_modify_box input{
     display: inline-block;    
   }
-
-
-
-
   </style>
   <script>
-      
-
       function check_pw(){
         var new_pw = document.getElementById('new_pw').value;
         var check_new_pw = document.getElementById('check_new_pw').value;
@@ -211,19 +198,9 @@
           window.location.reload()
         }
       }
-
-
-
   </script>
 </head>
-<header id="header">
-  
-  <div class="logout_btn">
-    <span><a href="{{url_for('login.logout')}}" >Logout</a></span>
-  </div>
-  <h6 id="clock" ><small>{{session['name']}}님<br>안녕하세요</small></h6>
-
-</header>
+{% include('sub_header.html') %}
 <body class="sub_page">
   <div class="hero_area">
     <!-- header section strats -->
@@ -238,49 +215,7 @@
   </div>
 
   <!-- nav section -->
-
-  <section class="nav_section">
-    <div class="container">
-      <div class="custom_nav2">
-        <nav class="navbar navbar-expand custom_nav-container ">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <div class="d-flex  flex-column flex-lg-row align-items-center">
-              <ul class="navbar-nav  ">
-                
-                <li class="nav-item">
-                  <a class="nav-link" href="#">TOPS</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">BOTTOMS</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">SHOES</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Cart</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{{url_for('mypage.info_page')}}">My Page</a>
-                </li>
-              </ul>
-              
-            </div>
-          </div>
-          <div id="search_container">
-            <input class="learn-more">
-          </div>
-          <form id="search_btn" class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0">
-            <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit"></button>
-          </form>
-        </nav>
-      </div>
-    </div>
-  </section>
-
+  {% include('nav.html') %}
   <!-- end nav section -->
 
   <!-- fruit section -->
@@ -302,16 +237,11 @@
             <li><a href="{{url_for('mypage.info_page')}}">회원정보조회/수정</a></li>
             <li><a href="{{url_for('mypage.pw_page')}}">비밀번호변경</a></li>
             <li><a href="{{url_for('mypage.del_page')}}">회원탈퇴</a></li>
+            <li><a href="{{url_for('mypage.history')}}">주문내역조회</a></li>
           </ul>
         </aside>
         <main>
           <article id="mypage_contents" style="margin:30px; padding:30px;">
-
-
-
-
-
-
             <div id="password_modify_box">
               <form method="POST" action="password_change">
               <input type="text" placeholder="새로운 비밀번호 입력" id="new_pw" name="pw">
