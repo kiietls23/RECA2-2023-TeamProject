@@ -1,6 +1,7 @@
 import pymysql
+import re
 
-from flask import Blueprint, render_template, request, session, Flask, url_for, redirect
+from flask import Blueprint, render_template, request, session, Flask, url_for, redirect, flash
 
 from my_settings import PW
 
@@ -41,7 +42,8 @@ def login():
             
             return redirect(url_for('main.main'))
         else:
-            return "이메일 또는 비밀번호가 올바르지 않습니다."
+            flash("이메일 또는 비밀번호가 올바르지 않습니다.")
+            return render_template ('signin.html')
     else:
         return render_template ('signin.html')
     
