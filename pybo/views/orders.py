@@ -71,9 +71,9 @@ def payment(user_id):
         return("GET"), 200
         
     elif request.method == 'POST':
-        cursor.execute("""select u.user_id, u.wallet_id, w.rest 
-                        from wallet as w join users as u 
-                        on u.wallet_id = w.wallet_id 
+        cursor.execute("""select u.user_id, u.wallet_id, w.rest, c.product_id, c.count, p.price, c.user_id  
+                        from wallet as w join users as u join cart as c join products as p 
+                        on u.wallet_id = w.wallet_id AND c.user_id = u.user_id
                         where u.user_id={}""".format(user_id))
         wallet = cursor.fetchone()
         
@@ -81,6 +81,9 @@ def payment(user_id):
         user_id = wallet[0]
         wallet_id = wallet[1]
         rest = int(float(wallet[2]))
+        product_id = wallet[3]
+        count = [4]
+        price = [5]
 
         sum_total = session.get('test')
 
@@ -88,6 +91,8 @@ def payment(user_id):
         if int(sum_total) <= rest:
             afterest = rest - sum_total
             cursor.execute("update wallet set rest='{}' where wallet_id = {};".format(afterest, wallet_id))
+            cursor.execute('INSERT INTO payments (user_id, product_id, count, price) VALUES \
+            (%s, %s, %s, %s)', (user_id, product_id, count, price))
             db.commit()
             # 주문 내역 페이지로 이동 (현재는 우선 mypage로 이동)
             return '''<script>alert('결제가 완료되었습니다!');

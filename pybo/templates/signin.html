@@ -165,19 +165,29 @@ margin-right: 4px;
     <form method="post" action='signin'>
         <label for="email">email:</label>
         <input type="email" placeholder="Email" id="email" name="email" required>
+        <div class="error-msg"></div>
         <br>
         <label for="password">password:</label>
         <input type="password" placeholder="Password" id="password" name="password" required>
+        <div class="error-msg"></div>
         <br>
-        <input type="submit" value="Login">
+        <input type="submit" value="Login" id="Login">
         <div class="social" id="pond">
         <div class="go"><a href="#">Find ID</a></div>
         <div class="go"><a href="http://127.0.0.1:5000/users/signup">Sign UP</a></div> 
         <div class="go"><a href="#">Find PW</a></div>
     </div>
     </form>
+{% with messages = get_flashed_messages()%}
+    {% if messages %}
+        <script>
+            alert("{{messages [-1]}}")
+        </script>
+    {% endif %}
+{% endwith %}
 </body>
 </html>
+
 
 
     
